@@ -1,10 +1,8 @@
-package com.haque.baseline.data.remote
+package com.haque.baseline.data.source.remote.dto
 
 import com.squareup.moshi.Json
 
-// From Hourly Payload to Trim little lists of weather details.
-
-data class WeatherDataDTO (
+data class HourlyWeatherDTO (
         val time: List<String>,
 
         @field:Json(name = "temperature_2m")
@@ -29,13 +27,6 @@ data class WeatherDataDTO (
         val windSpeeds: List<Double>,
 
         @field:Json(name = "visibility")
-        val visibilities: List<Double>,
+        val visibilities: List<Double>
 
         )
-
-/*
-Oh myyyy what is this?  Ths is a teaser into the future.  For scoping purposes, the project
-will not be using this portion of the API, although I considered it.
-
-&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto")
- */

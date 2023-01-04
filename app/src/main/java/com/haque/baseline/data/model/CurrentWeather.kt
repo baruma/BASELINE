@@ -11,6 +11,12 @@ mixed and matched to represent data corresponding with their UI.
 
 Try and get the domain models to represent their UI components the best you can, so do all the mapping
 you need to do so these classes end up clean.
+
+Missing:
+
+- Humidity
+- Precipitation
+
  */
 
 data class CurrentWeather (

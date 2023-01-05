@@ -8,7 +8,8 @@ import java.time.LocalDateTime
 // Right now this is structured to be a whole list of weather data.  It does not parse them to
 // individual days.  You could do this in the mapper.
 
-data class WeeklyForecastWeather (
+// changed weekly to seven days because the user may not necessarily be opening the app on a mon/sun.
+data class DailyForecastedData (
     val time: LocalDateTime,
     val weatherCodes: List<Int>,
     val maxTemperatures: List<Double>,

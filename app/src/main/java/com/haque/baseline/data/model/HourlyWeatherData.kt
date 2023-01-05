@@ -14,10 +14,10 @@ Hourly Cards just need:
 IDEA: but it has all this info.... sounds like there's room in the future for a tap for details feature.
  */
 
-data class HourlyWeather (
+data class HourlyWeatherData (
     val time: LocalDateTime,
-    val temperature: Double,
-    val apparentTemperature: Double,
+    val temperatureInFahrenheit: Double,
+    val apparentTemperatureInFahrenheit: Double,
     val humidity: Double,
     val weatherCode: Int,
     val pressure: Double,

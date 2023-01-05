@@ -19,7 +19,7 @@ Missing:
 
  */
 
-data class CurrentWeather (
+data class CurrentWeatherData (
     val time: LocalDateTime,
     val temperatureInFahrenheit: Double,
     val windSpeed: Double,

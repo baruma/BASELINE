@@ -1,68 +1,124 @@
 package com.haque.baseline.data.mappers
 
-/*
-The role of this class is to map the Hourly and Weather DTO objects to Domain objects.
+import com.haque.baseline.data.model.CurrentWeatherData
+import com.haque.baseline.data.model.HourlyWeatherData
+import com.haque.baseline.data.model.DailyForecastedData
+import com.haque.baseline.data.source.remote.dto.CurrentWeatherDTO
+import com.haque.baseline.data.source.remote.dto.DailyWeatherDTO
+import com.haque.baseline.data.source.remote.dto.HourlyWeatherDTO
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-data class HourlyWeatherDTO (
-    private val weatherDataDTO: WeatherDataDTO
+/////////////////////
+// Hourly Weather //
+////////////////////
+private data class IndexedHourlyWeather (
+    val index: Int,
+    val data: HourlyWeatherData
 )
 
-data class WeatherDataDTO (
-        val time: List<String>,
+// Remember, the Hourly payload is 168 values. Indexing 168 values could take time.
+fun HourlyWeatherDTO.toHourlyWeather(): Map<Int, List<HourlyWeatherData>> {
+    // mapIndexed returns a list containing the results of applying the given transform function to
+    // each element and its index in the original array.
 
-        @field:Json(name = "temperature_2m")
-        val temperatures: List<Double>,
+    // 168 time values. It's just a massless list... and it doesn't come with it's own index.
+    // So time is going to be assigned an indexed with '.mapIndexed.'
 
-        @field:Json(name = "apparent_temperature")
-        val apparentTemperatures: List<Double>,
 
-        @field:Json(name = "relativehumidity_2m")
-        val humidities: List<Double>,
+    return time.mapIndexed { index, time ->
+        val temperatureInFahrenheit = temperatures[index]
+        val weatherCode = weatherCodes[index]
+        val windSpeed = windSpeeds[index]
+        val pressure = pressures[index]
+        val humidity = humidities[index]
+        val visibility = visibilities[index]
+        val precipitation = precipitations[index]
+        val apparentTemperature = apparentTemperatures[index]
 
-        @field:Json(name = "precipitation")
-        val precipitations: List<Double>,
+        // IndexedHourlyWeather takes the index by '.mapIndexed' to bundle up the Hourly data.
+        IndexedHourlyWeather(
+            index = index,
+            data = HourlyWeatherData(
+                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
+                temperatureInFahrenheit = temperatureInFahrenheit,
+                pressure = pressure,
+                humidity = humidity,
+                // Should create a mapper for the codes and icons.
+                weatherCode = weatherCode,
+                apparentTemperatureInFahrenheit = apparentTemperature,
+                visibility = visibility,
+                windSpeed = windSpeed
+            )
+        )
+    }.groupBy {
+        it.index / 24
+    }.mapValues {
+        it.value.map { it.data }  // remember, despite being all the way down here, we're still within
+        // the scope of IndexedHourlyWeather.  We're appending to it. }
+    }
+}
 
-        @field:Json(name = "weathercode")
-        val weatherCodes: List<Int>,
+///////////////////
+// Daily Weather //
+///////////////////
 
-        @field:Json(name = "pressure_msl")
-        val pressures: List<Double>,
+private data class IndexedDailyWeather(
+    val index: Int,
+    val data: DailyForecastedData
+)
 
-        @field:Json(name = "windspeed_10m")
-        val windSpeeds: List<Double>,
+fun DailyWeatherDTO.toDailyForecastedData(): Map<Int, List<DailyForecastedData>> {
+    return time.mapIndexed { index, time ->
+        val weatherCode = weatherCodes[index]
+        val maxTemperature = maxTemperatures[index]
+        val minTemperature = minTemperatures[index]
+        val precipitationSum = precipitationSums[index]
+        val precipitationHours = precipitationHours[index]
 
-        @field:Json(name = "visibility")
-        val visibilities: List<Double>,
-
+        data class DailyForecastedData (
+            val time: LocalDateTime,
+            val weatherCodes: List<Int>,
+            val maxTemperatures: List<Double>,
+            val minTemperatures: List<Double>,
+            val precipitationSums: List<Double>,
+            val precipitationHours: List<Double>
         )
 
-        The HourlyWeatherDTO holds the WeatherDataDTO, but I need to seperate the hours out of their
-        list to map to their corresponding WeatherData, because imagine the data from Open-Meteo (API
-        being used as of 1.3.2023) comes in lines of doubles.
-        hour 1  3.3 89%
-        hour 2  2.1 20%
-        hour 3  1.3 98%
-        etc.    etc.
+        // Left off here.  Strange Run.
+        IndexedDailyWeather(
+            index = index,
+            data = DailyForecastedData(
+                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME,
+                weatherCode = weatherCode,
+                    maxTemperature = maxTemperature,
+                    mixTemperature = minTemperature,
+                    precipitationSums = precipitationSum,
+                    precipitationHours = precipitationHours
+            )
+        )
+    }.groupBy {
+        it.index/
+    }
+}
 
-        It's sorta different from how OpenWeatherMap does it where everything is nested into each other.
-        Here, you need to find each hour and put them in a list, then group up the weather data with their
-        corresponding indexes and assign them to the hourly
+//////////////////////
+// Current Weather //
+//////////////////////
 
-        or just assign all the indexes together at once since you should be getting a payload of 168 data items.
+/*
+Missing:
 
-
-
+- Humidity
+- Precipitation
  */
 
-// This object was made so that it would be easier to find days out of a week vs. days out of a month.
-// the index range is 0-6.  The index is paired with WeatherData which has time and weather data.
-// WeatherINfo
-//private data class IndexedWeatherData (
-//    val index: Int,
-//    val data: WeatherData
-//)
-
-
-//class WeatherMappers {
-//
-//}
+fun CurrentWeatherDTO.toCurrentWeatherData(): CurrentWeatherData {
+    return CurrentWeatherData(
+        time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
+        temperatureInFahrenheit = temperature,
+        windSpeed = windSpeed,
+        windDirection = windDirection,
+        weatherCode = weatherCode
+    )
+}

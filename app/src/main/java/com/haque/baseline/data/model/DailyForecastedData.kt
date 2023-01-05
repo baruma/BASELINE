@@ -9,11 +9,21 @@ import java.time.LocalDateTime
 // individual days.  You could do this in the mapper.
 
 // changed weekly to seven days because the user may not necessarily be opening the app on a mon/sun.
+//data class DailyForecastedData (
+//    val time: LocalDateTime,
+//    val weatherCodes: List<Int>,
+//    val maxTemperatures: List<Double>,
+//    val minTemperatures: List<Double>,
+//    val precipitationSums: List<Double>,
+//    val precipitationHours: List<Double>
+//    )
+
+// PrecipitationHours has me confused
 data class DailyForecastedData (
     val time: LocalDateTime,
-    val weatherCodes: List<Int>,
-    val maxTemperatures: List<Double>,
-    val minTemperatures: List<Double>,
-    val precipitationSums: List<Double>,
-    val precipitationHours: List<Double>
-    )
+    val weatherCode: Int,
+    val maxTemperature: Double,
+    val minTemperature: Double,
+    val precipitationSum: Double,
+    val precipitationHours: Double,
+        )

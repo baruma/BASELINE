@@ -54,51 +54,8 @@ fun HourlyWeatherDTO.toHourlyWeather(): Map<Int, List<HourlyWeatherData>> {
     }.groupBy {
         it.index / 24
     }.mapValues {
-        it.value.map { it.data }  // remember, despite being all the way down here, we're still within
+        it.value.map { it.data }  // despite being all the way down here, we're still within
         // the scope of IndexedHourlyWeather.  We're appending to it. }
-    }
-}
-
-///////////////////
-// Daily Weather //
-///////////////////
-
-private data class IndexedDailyWeather(
-    val index: Int,
-    val data: DailyForecastedData
-)
-
-fun DailyWeatherDTO.toDailyForecastedData(): Map<Int, List<DailyForecastedData>> {
-    return time.mapIndexed { index, time ->
-        val weatherCode = weatherCodes[index]
-        val maxTemperature = maxTemperatures[index]
-        val minTemperature = minTemperatures[index]
-        val precipitationSum = precipitationSums[index]
-        val precipitationHours = precipitationHours[index]
-
-        data class DailyForecastedData (
-            val time: LocalDateTime,
-            val weatherCodes: List<Int>,
-            val maxTemperatures: List<Double>,
-            val minTemperatures: List<Double>,
-            val precipitationSums: List<Double>,
-            val precipitationHours: List<Double>
-        )
-
-        // Left off here.  Strange Run.
-        IndexedDailyWeather(
-            index = index,
-            data = DailyForecastedData(
-                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME,
-                weatherCode = weatherCode,
-                    maxTemperature = maxTemperature,
-                    mixTemperature = minTemperature,
-                    precipitationSums = precipitationSum,
-                    precipitationHours = precipitationHours
-            )
-        )
-    }.groupBy {
-        it.index/
     }
 }
 
@@ -121,4 +78,38 @@ fun CurrentWeatherDTO.toCurrentWeatherData(): CurrentWeatherData {
         windDirection = windDirection,
         weatherCode = weatherCode
     )
+}
+///////////////////
+// Daily Weather //
+///////////////////
+
+private data class IndexedDailyWeather(
+    val index: Int,  // day of week
+    val data: DailyForecastedData
+)
+
+fun DailyWeatherDTO.toDailyForecastedData(): Map<Int, List<DailyForecastedData>> {
+    return time.mapIndexed { index, time ->
+        val weatherCode = weatherCodes[index]
+        val maxTemperature = maxTemperatures[index]
+        val minTemperature = minTemperatures[index]
+        val precipitationSum = precipitationSums[index]
+        val precipitationHours = precipitationHours[index]
+
+        // Left off here.  Strange Run.  Right I was having issues mapping Daily Weather.
+        IndexedDailyWeather(
+            index = index,
+            data = DailyForecastedData(
+                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
+                weatherCode = weatherCode,
+                maxTemperature = maxTemperature,
+                minTemperature = minTemperature,
+                precipitationSum = precipitationSum,
+                precipitationHours = precipitationHours
+            ))
+}.groupBy {
+    it.index / 7
+    }.mapValues {
+        it.value.map { it.data }
+    }
 }

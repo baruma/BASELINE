@@ -3,9 +3,9 @@ package com.haque.baseline.data.mappers
 import com.haque.baseline.data.model.CurrentWeatherData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.DailyForecastedData
-import com.haque.baseline.data.source.remote.dto.CurrentWeatherDTO
-import com.haque.baseline.data.source.remote.dto.DailyWeatherDTO
-import com.haque.baseline.data.source.remote.dto.HourlyWeatherDTO
+import com.haque.baseline.data.source.source.dto.CurrentWeatherDTO
+import com.haque.baseline.data.source.source.dto.DailyWeatherDTO
+import com.haque.baseline.data.source.source.dto.HourlyWeatherDTO
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

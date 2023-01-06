@@ -1,6 +1,5 @@
-package com.haque.baseline.data.source.remote.dto
+package com.haque.baseline.data.source.source.dto
 
-import com.haque.baseline.data.source.remote.dto.HourlyWeatherDTO
 import com.squareup.moshi.Json
 
 data class CurrentWeatherDTO (

@@ -3,9 +3,11 @@ package com.haque.baseline.data.mappers
 import com.haque.baseline.data.model.CurrentWeatherData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.DailyForecastedData
+import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.data.source.source.dto.CurrentWeatherDTO
 import com.haque.baseline.data.source.source.dto.DailyWeatherDTO
 import com.haque.baseline.data.source.source.dto.HourlyWeatherDTO
+import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -112,4 +114,16 @@ fun DailyWeatherDTO.toDailyForecastedData(): Map<Int, List<DailyForecastedData>>
     }.mapValues {
         it.value.map { it.data }
     }
+}
+
+///////////////////////////////
+// One Call Weather Payload //
+///////////////////////////////
+
+fun OneCallWeatherPayloadDTO.toOneCallWeatherPayloadData(): OneCallWeatherPayloadData {
+    return OneCallWeatherPayloadData(
+        CurrentWeatherData(),
+        DailyForecastedData(),
+        HourlyWeatherData()
+    )
 }

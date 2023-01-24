@@ -1,28 +1,29 @@
 package com.haque.baseline.data.source.source.repository
 
-import com.haque.baseline.data.mappers.toOneCallWeatherPayloadData
 import com.haque.baseline.data.model.OneCallWeatherPayloadData
-import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
 import com.haque.baseline.data.source.source.remote.WeatherApi
 import com.haque.baseline.domain.Resource
 import javax.inject.Inject
 
-class WeatherRepositoryImpl @Inject constructor (private val api: WeatherApi): Resource<OneCallWeatherPayloadDfTO> {
 
-    override suspend fun getOneCallWeatherPayload (
-        lat: Double,
-        long: Double
-    ): Resource<OneCallWeatherPayloadData> {
+// Since the Implementation class is doing the heavy lifting, we go ahead and feed it our api.
+class WeatherRepositoryImpl @Inject constructor (private val api: WeatherApi): WeatherRepository {
+    override suspend fun testAPIResponse(lat: Double, long: Double): Resource<String> {
         return try {
             Resource.Success(
-                data = api.getWeatherData(
-                    lat = lat,
-                    long = long
-                ).toOneCallWeatherPayloadData()
+                data = api.getWeatherData(lat, long).toString()
             )
         } catch(e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
-        }    }
-
+            Resource.Error(
+                "error", e.message
+            )
+        }
+    }
 }
+
+/*
+make the call
+see if your data matches
+fit your other mappers into the larger maps
+ */

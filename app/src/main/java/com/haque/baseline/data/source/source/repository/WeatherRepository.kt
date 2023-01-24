@@ -5,7 +5,8 @@ import com.haque.baseline.domain.Resource
 
 
 interface WeatherRepository {
-    suspend fun getOneCallWeatherPayload(lat: Double, long: Double): Resource<OneCallWeatherPayloadData>
+    // suspend fun getOneCallWeatherPayload(lat: Double, long: Double): Resource<OneCallWeatherPayloadData>
+    suspend fun testAPIResponse(lat: Double, long: Double): Resource<String>
 }
 
 /*

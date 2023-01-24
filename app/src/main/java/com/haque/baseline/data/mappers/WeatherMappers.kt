@@ -119,11 +119,3 @@ fun DailyWeatherDTO.toDailyForecastedData(): Map<Int, List<DailyForecastedData>>
 ///////////////////////////////
 // One Call Weather Payload //
 ///////////////////////////////
-
-fun OneCallWeatherPayloadDTO.toOneCallWeatherPayloadData(): OneCallWeatherPayloadData {
-    return OneCallWeatherPayloadData(
-        CurrentWeatherData(),
-        DailyForecastedData(),
-        HourlyWeatherData()
-    )
-}

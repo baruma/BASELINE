@@ -1,22 +1,16 @@
 package com.haque.baseline.di
 
+import com.haque.baseline.data.source.source.repository.WeatherRepositoryImpl
+import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
 
-// Making modules for viewmodels can be tricky.
-// First we need a Factory to make the viewmodel.
-//
-//@InstallIn(SingletonComponent::class)
-//@Module
-//abstract class ViewModelModule {
-//    @Binds
-//    abstract fun bindViewModelFactory(viewModelFactory: ViewModelFactory): ViewModelProvider.Factory
-//
-//}
-
+@InstallIn(ViewModelComponent::class)
 @Module
-@InstallIn(SingletonComponent::class)
 abstract class ViewModelModule {
-
+    @Binds
+    abstract fun provideWeatherRepositoryImpl(
+        weatherRepositoryImpl: WeatherRepositoryImpl): WeatherRepositoryImpl
 }
+

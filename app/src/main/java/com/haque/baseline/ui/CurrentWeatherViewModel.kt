@@ -2,6 +2,7 @@ package com.haque.baseline.ui
 
 import androidx.lifecycle.ViewModel
 import com.haque.baseline.data.source.source.repository.WeatherRepository
+import com.haque.baseline.data.source.source.repository.WeatherRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ AppModule (because it is annotated with @Module) and look for relevant dependenc
  */
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor (
-    private val repository: WeatherRepository): ViewModel() {
+    private val repository: WeatherRepositoryImpl): ViewModel() {
 
     suspend fun getWeather() {
         repository.testAPIResponse(37.76,-122.39)

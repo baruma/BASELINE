@@ -6,6 +6,7 @@ import com.haque.baseline.data.source.source.repository.WeatherRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.create
@@ -17,6 +18,7 @@ You can declare modules for specific scopes.  Whatever works for the purpose of 
 AppModule is different it seems.
  */
 @Module
+@HiltAndroidApp
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides

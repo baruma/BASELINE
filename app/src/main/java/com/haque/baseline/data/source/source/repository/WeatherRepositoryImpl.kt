@@ -1,10 +1,8 @@
 package com.haque.baseline.data.source.source.repository
 
-import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.data.source.source.remote.WeatherApi
 import com.haque.baseline.domain.Resource
 import javax.inject.Inject
-
 
 // Since the Implementation class is doing the heavy lifting, we go ahead and feed it our api.
 class WeatherRepositoryImpl @Inject constructor (private val api: WeatherApi): WeatherRepository {
@@ -21,9 +19,3 @@ class WeatherRepositoryImpl @Inject constructor (private val api: WeatherApi): W
         }
     }
 }
-
-/*
-make the call
-see if your data matches
-fit your other mappers into the larger maps
- */

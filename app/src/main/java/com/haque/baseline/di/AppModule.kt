@@ -18,7 +18,6 @@ You can declare modules for specific scopes.  Whatever works for the purpose of 
 AppModule is different it seems.
  */
 @Module
-@HiltAndroidApp
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides
@@ -41,12 +40,12 @@ object AppModule {
 //        return LocationServices.getFusedLocationProviderClient(app)
 //    }
 
-    @Provides
-    @Singleton
-    // DaggerHilt is "smart" enough to detect you need WeatherAPI, so it will look in this object for it.
-    fun provideWeatherRepository(api: WeatherApi): WeatherRepository {
-        return WeatherRepositoryImpl(api)
-    }
+//    @Provides
+//    @Singleton
+//    // DaggerHilt is "smart" enough to detect you need WeatherAPI, so it will look in this object for it.
+//    fun provideWeatherRepository(api: WeatherApi): WeatherRepository {
+//        return WeatherRepositoryImpl(api)
+//    }
 
 }
 

@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android' version '2.44' apply false
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -62,6 +62,7 @@ dependencies {
     //Dagger - Hilt
     kapt "com.google.dagger:hilt-android-compiler:2.44.2"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
+
 
     // Moshi
     implementation 'com.squareup.moshi:moshi:1.14.0'

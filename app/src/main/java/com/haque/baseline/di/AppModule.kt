@@ -20,6 +20,7 @@ AppModule is different it seems.
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
     @Provides
     @Singleton
     // Dagger-Hilt knows how to create this type of class.  Whenever you request an instance of
@@ -27,25 +28,11 @@ object AppModule {
     fun provideWeatherApi(): WeatherApi {
         // removed moshiconverterfactory here.
         return Retrofit.Builder()
-            .baseUrl("https://api.open-meteo.com/")
+                // https://api.open-meteo.com/v1/forecast?latitude=37.76&longitude=-122.39&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,visibility,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_hours&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto
+            .baseUrl("https://api.open-meteo.com/v1/")
             .build()
             .create()
     }
-
-    // This is the fusedlocationproviderclient needed by the defaultlocationtracker in data.location
-    // You can go to the Location and Repository Modules
-//    @Provides
-//    @Singleton
-//    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
-//        return LocationServices.getFusedLocationProviderClient(app)
-//    }
-
-//    @Provides
-//    @Singleton
-//    // DaggerHilt is "smart" enough to detect you need WeatherAPI, so it will look in this object for it.
-//    fun provideWeatherRepository(api: WeatherApi): WeatherRepository {
-//        return WeatherRepositoryImpl(api)
-//    }
 
 }
 

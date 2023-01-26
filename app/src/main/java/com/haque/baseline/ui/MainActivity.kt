@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.haque.baseline.R
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -21,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // I actually don't know if I need ths line or not.  I figured it's the XML equivalent to compose
-        // when setting up a HiltViewModel
         currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
 
         // a coroutine scope needs to be written to call suspend functions.  This lets you organize coroutines into groupings.
@@ -36,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun getWeather() {
         currentWeatherViewModel.getWeather()
+        Timber.tag("blah").d("shit didn't work probably but this was hit")
         Timber.tag("eggos").e(currentWeatherViewModel.getWeather().toString())
     }
 }

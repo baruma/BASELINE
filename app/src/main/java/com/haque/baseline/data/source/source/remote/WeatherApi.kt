@@ -1,6 +1,7 @@
 package com.haque.baseline.data.source.source.remote
 
 import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
+import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,5 +11,5 @@ interface WeatherApi {
     suspend fun getWeatherData(
         @Query("latitude") lat: Double,
         @Query("longitude") long: Double
-    ): String
+    ): ResponseBody
 }

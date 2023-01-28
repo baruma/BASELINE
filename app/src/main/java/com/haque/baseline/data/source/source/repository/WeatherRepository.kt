@@ -2,11 +2,12 @@ package com.haque.baseline.data.source.source.repository
 
 import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.domain.Resource
+import okhttp3.ResponseBody
 
 
 interface WeatherRepository {
     // suspend fun getOneCallWeatherPayload(lat: Double, long: Double): Resource<OneCallWeatherPayloadData>
-    suspend fun testAPIResponse(lat: Double, long: Double): Resource<String>
+    suspend fun testAPIResponse(lat: Double, lng: Double): ResponseBody
 }
 
 /*

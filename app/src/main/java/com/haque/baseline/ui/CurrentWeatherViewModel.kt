@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.haque.baseline.data.source.source.repository.WeatherRepository
 import com.haque.baseline.data.source.source.repository.WeatherRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 /*
@@ -16,6 +17,7 @@ class CurrentWeatherViewModel @Inject constructor (
     private val repository: WeatherRepository): ViewModel() {
 
     suspend fun getWeather() {
-        repository.testAPIResponse(37.76,-122.39)
+        val result = repository.testAPIResponse(37.76,-122.39)
+        Timber.tag("blah").d(result.toString())
     }
 }

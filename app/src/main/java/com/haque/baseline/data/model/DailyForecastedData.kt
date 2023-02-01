@@ -1,6 +1,5 @@
 package com.haque.baseline.data.model
 
-import com.squareup.moshi.Json
 import java.time.LocalDateTime
 
 // Basically the Weekly Forecast Cards.
@@ -18,10 +17,9 @@ import java.time.LocalDateTime
 //    val precipitationHours: List<Double>
 //    )
 
-// PrecipitationHours has me confused
-data class DailyForecastedData (
+data class DailyForecastedData(
     val time: LocalDateTime,
-    val weatherCode: Int,
+    val weatherCode: Long,
     val maxTemperature: Double,
     val minTemperature: Double,
     val precipitationSum: Double,

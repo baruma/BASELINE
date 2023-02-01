@@ -12,13 +12,13 @@ data class HourlyWeatherDTO (
         val apparentTemperatures: List<Double>,
 
         @field:Json(name = "relativehumidity_2m")
-        val humidities: List<Double>,
+        val humidities: List<Long>,
 
         @field:Json(name = "precipitation")
         val precipitations: List<Double>,
 
         @field:Json(name = "weathercode")
-        val weatherCodes: List<Int>,
+        val weatherCodes: List<Long>,
 
         @field:Json(name = "pressure_msl")
         val pressures: List<Double>,

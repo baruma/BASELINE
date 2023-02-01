@@ -18,8 +18,8 @@ data class HourlyWeatherData (
     val time: LocalDateTime,
     val temperatureInFahrenheit: Double,
     val apparentTemperatureInFahrenheit: Double,
-    val humidity: Double,
-    val weatherCode: Int,
+    val humidity: Long,
+    val weatherCode: Long,
     val pressure: Double,
     val windSpeed: Double,
     val visibility: Double

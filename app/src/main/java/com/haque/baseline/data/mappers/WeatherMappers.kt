@@ -1,5 +1,7 @@
 package com.haque.baseline.data.mappers
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.haque.baseline.data.model.CurrentWeatherData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.DailyForecastedData
@@ -19,14 +21,13 @@ private data class IndexedHourlyWeather (
     val data: HourlyWeatherData
 )
 
-// Remember, the Hourly payload is 168 values. Indexing 168 values could take time.
+//Hourly payload has 168 values. Indexing 168 values will take time.
 fun HourlyWeatherDTO.toHourlyWeather(): Map<Int, List<HourlyWeatherData>> {
     // mapIndexed returns a list containing the results of applying the given transform function to
     // each element and its index in the original array.
 
     // 168 time values. It's just a massless list... and it doesn't come with it's own index.
     // So time is going to be assigned an indexed with '.mapIndexed.'
-
 
     return time.mapIndexed { index, time ->
         val temperatureInFahrenheit = temperatures[index]
@@ -65,13 +66,6 @@ fun HourlyWeatherDTO.toHourlyWeather(): Map<Int, List<HourlyWeatherData>> {
 // Current Weather //
 //////////////////////
 
-/*
-Missing:
-
-- Humidity
-- Precipitation
- */
-
 fun CurrentWeatherDTO.toCurrentWeatherData(): CurrentWeatherData {
     return CurrentWeatherData(
         time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
@@ -81,6 +75,7 @@ fun CurrentWeatherDTO.toCurrentWeatherData(): CurrentWeatherData {
         weatherCode = weatherCode
     )
 }
+
 ///////////////////
 // Daily Weather //
 ///////////////////
@@ -90,6 +85,7 @@ private data class IndexedDailyWeather(
     val data: DailyForecastedData
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun DailyWeatherDTO.toDailyForecastedData(): Map<Int, List<DailyForecastedData>> {
     return time.mapIndexed { index, time ->
         val weatherCode = weatherCodes[index]
@@ -119,3 +115,11 @@ fun DailyWeatherDTO.toDailyForecastedData(): Map<Int, List<DailyForecastedData>>
 ///////////////////////////////
 // One Call Weather Payload //
 ///////////////////////////////
+
+fun OneCallWeatherPayloadDTO.toOneCallWeatherPayloadData(): OneCallWeatherPayloadData {
+    return OneCallWeatherPayloadData (
+        this.currentWeather.toCurrentWeatherData(),
+        this.dailyWeather.toDailyForecastedData(),
+        this.hourlyWeather.toHourlyWeather()
+    )
+}

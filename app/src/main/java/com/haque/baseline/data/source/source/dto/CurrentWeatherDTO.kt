@@ -1,5 +1,4 @@
 package com.haque.baseline.data.source.source.dto
-
 import com.squareup.moshi.Json
 
 data class CurrentWeatherDTO (
@@ -15,5 +14,4 @@ data class CurrentWeatherDTO (
         val weatherCode: Int,
 
         val time: String
-
 )

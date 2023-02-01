@@ -1,7 +1,6 @@
 package com.haque.baseline.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.haque.baseline.R
@@ -28,12 +27,10 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(IO).launch {
             getWeather()
         }
-
     }
 
     private suspend fun getWeather() {
         currentWeatherViewModel.getWeather()
-        Timber.tag("blah").d("shit didn't work probably but this was hit")
         Timber.tag("eggos").e(currentWeatherViewModel.getWeather().toString())
     }
 }

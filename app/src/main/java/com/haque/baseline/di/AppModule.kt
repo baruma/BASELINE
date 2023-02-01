@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
@@ -20,19 +21,16 @@ AppModule is different it seems.
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Provides
     @Singleton
     // Dagger-Hilt knows how to create this type of class.  Whenever you request an instance of
     // your api, dagger hilt will know to look for it and provide it.
     fun provideWeatherApi(): WeatherApi {
-        // removed moshiconverterfactory here.
         return Retrofit.Builder()
                 // https://api.open-meteo.com/v1/forecast?latitude=37.76&longitude=-122.39&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,visibility,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_hours&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto
             .baseUrl("https://api.open-meteo.com/v1/")
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create()
     }
-
 }
-

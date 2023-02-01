@@ -22,14 +22,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Date & Time Textview"
+        android:text="Date and Time Textview"
         android:textColor="#673AB7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_textview" />
 
     <TextView
-        android:id="@+id/temperature_textview"
+        android:id="@+id/current_temperature_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -43,13 +43,13 @@
         app:layout_constraintTop_toBottomOf="@+id/date_time_textview" />
 
     <ImageView
-        android:id="@+id/weather_icon_imageview"
+        android:id="@+id/current_weather_icon_imageview"
         android:layout_width="104dp"
         android:layout_height="110dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temperature_textview"
+        app:layout_constraintTop_toBottomOf="@+id/current_temperature_textview"
         tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>

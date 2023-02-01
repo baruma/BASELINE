@@ -1,6 +1,7 @@
 package com.haque.baseline.ui
 
 import androidx.lifecycle.ViewModel
+import com.haque.baseline.data.mappers.toOneCallWeatherPayloadData
 import com.haque.baseline.data.source.source.repository.WeatherRepository
 import com.haque.baseline.data.source.source.repository.WeatherRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,7 @@ class CurrentWeatherViewModel @Inject constructor (
 
     suspend fun getWeather() {
         val result = repository.testAPIResponse(37.76,-122.39)
-        Timber.tag("blah").d(result.toString())
+        result.toOneCallWeatherPayloadData()
+        8
     }
 }

@@ -1,5 +1,6 @@
 package com.haque.baseline.data.model
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 // Basically the Weekly Forecast Cards.
@@ -18,7 +19,7 @@ import java.time.LocalDateTime
 //    )
 
 data class DailyForecastedData(
-    val time: LocalDateTime,
+    val time: LocalDate,
     val weatherCode: Long,
     val maxTemperature: Double,
     val minTemperature: Double,

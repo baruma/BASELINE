@@ -1,5 +1,6 @@
 package com.haque.baseline.data.mappers
 
+import android.icu.util.Calendar
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.haque.baseline.data.model.CurrentWeatherData
@@ -10,8 +11,10 @@ import com.haque.baseline.data.source.source.dto.CurrentWeatherDTO
 import com.haque.baseline.data.source.source.dto.DailyWeatherDTO
 import com.haque.baseline.data.source.source.dto.HourlyWeatherDTO
 import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 /////////////////////
 // Hourly Weather //
@@ -33,7 +36,7 @@ fun HourlyWeatherDTO.toHourlyWeather(): Map<Int, List<HourlyWeatherData>> {
         val temperatureInFahrenheit = temperatures[index]
         val weatherCode = weatherCodes[index]
         val windSpeed = windSpeeds[index]
-        val pressure = pressures[index]
+//        val pressure = pressures[index]
         val humidity = humidities[index]
         val visibility = visibilities[index]
         val precipitation = precipitations[index]
@@ -43,9 +46,9 @@ fun HourlyWeatherDTO.toHourlyWeather(): Map<Int, List<HourlyWeatherData>> {
         IndexedHourlyWeather(
             index = index,
             data = HourlyWeatherData(
-                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
+                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 temperatureInFahrenheit = temperatureInFahrenheit,
-                pressure = pressure,
+//                pressure = pressure,
                 humidity = humidity,
                 // Should create a mapper for the codes and icons.
                 weatherCode = weatherCode,
@@ -68,7 +71,7 @@ fun HourlyWeatherDTO.toHourlyWeather(): Map<Int, List<HourlyWeatherData>> {
 
 fun CurrentWeatherDTO.toCurrentWeatherData(): CurrentWeatherData {
     return CurrentWeatherData(
-        time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
+        time = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
         temperatureInFahrenheit = temperature,
         windSpeed = windSpeed,
         windDirection = windDirection,
@@ -98,7 +101,7 @@ fun DailyWeatherDTO.toDailyForecastedData(): Map<Int, List<DailyForecastedData>>
         IndexedDailyWeather(
             index = index,
             data = DailyForecastedData(
-                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
+                time = LocalDate.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 weatherCode = weatherCode,
                 maxTemperature = maxTemperature,
                 minTemperature = minTemperature,

@@ -20,7 +20,7 @@ data class HourlyWeatherData (
     val apparentTemperatureInFahrenheit: Double,
     val humidity: Long,
     val weatherCode: Long,
-    val pressure: Double,
+//    val pressure: Double,
     val windSpeed: Double,
     val visibility: Double
     )

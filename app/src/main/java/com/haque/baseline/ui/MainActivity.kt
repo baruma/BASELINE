@@ -1,10 +1,15 @@
 package com.haque.baseline.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.haque.baseline.R
+import com.haque.baseline.databinding.WeatherFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -18,8 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        setContentView(R.layout.weather_fragment)
 
         currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
 
@@ -29,6 +33,10 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(IO).launch {
             getWeather()
         }
+
+        val binding: WeatherFragmentBinding = DataBindingUtil.setContentView(
+            this, R.layout.weather_fragment)
+
     }
 
     private suspend fun getWeather() {

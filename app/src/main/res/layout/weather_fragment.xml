@@ -84,7 +84,9 @@
             app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/current_weather_view"
-            tools:listitem="@layout/hourly_weather_card" />
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/hourly_weather_card"
+            android:background="@color/black"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/daily_weather_forecast_recyclerview"
@@ -97,7 +99,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:scrollbars="horizontal"
-            tools:listitem="@layout/day_weather_card"/>
+            tools:listitem="@layout/day_weather_card"
+            android:background="@color/black"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

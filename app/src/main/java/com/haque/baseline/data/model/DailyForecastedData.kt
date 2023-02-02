@@ -1,7 +1,6 @@
 package com.haque.baseline.data.model
 
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 // Basically the Weekly Forecast Cards.
 

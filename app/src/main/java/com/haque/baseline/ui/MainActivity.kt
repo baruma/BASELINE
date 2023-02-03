@@ -7,27 +7,33 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.haque.baseline.R
+import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.databinding.WeatherFragmentBinding
+import com.haque.baseline.ui.daily.DailyWeatherRecyclerAdapter
 import com.haque.baseline.ui.hourly.HourlyRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    // Don't need to inject this because the OS will create an instance of MainActivity, not you.
     private lateinit var currentWeatherViewModel: CurrentWeatherViewModel
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
+    private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
 
-//    private val hourlyWeatherObserver: Observer<List<HourlyWeatherData>> =
-//        Observer<List<HourlyWeatherData>> { hourlyData ->
-//            // How do you update RecyclerView code here?
-////            hourlyWeatherRecyclerAdapter.
-//
-//        }
+    private val hourlyWeatherObserver: Observer<List<HourlyWeatherData>> =
+        Observer<List<HourlyWeatherData>> { hourlyData ->
+            hourlyWeatherRecyclerAdapter.updateRecyclerDate(hourlyData)
+        }
+
+    private val dailyWeatherObserver: Observer<List<DailyForecastedData>> =
+        Observer<List<DailyForecastedData>> { dailyForecastedWeather ->
+            dailyWeatherRecyclerAdapter.updateRecyclerData(dailyForecastedWeather)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,27 +41,34 @@ class MainActivity : AppCompatActivity() {
 
         currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
 
-        // a coroutine scope needs to be written to call suspend functions.  This lets you organize coroutines into groupings.
-        // CoroutineScope's most common scopes are Default, IO and Main.  Default is for heavy computation.
-        // Launch is the builder.
         CoroutineScope(IO).launch {
-            getWeather()
+            ()
         }
 
         val binding: WeatherFragmentBinding = DataBindingUtil.setContentView(
             this, R.layout.weather_fragment)
 
+        currentWeatherViewModel.hourlyWeatherDataResponse.observe(binding.lifecycleOwner!!,
+            hourlyWeatherObserver)
+
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
         binding.hourlyWeatherRecyclerview.layoutManager = LinearLayoutManager(this)
         binding.hourlyWeatherRecyclerview.adapter = hourlyWeatherRecyclerAdapter
 
-//        currentWeatherViewModel.hourlyWeatherDataResponse.observe(binding.lifecycleOwner!!,
-//            hourlyWeatherObserver)
+        dailyWeatherRecyclerAdapter = DailyWeatherRecyclerAdapter(mutableListOf())
+        binding.dailyWeatherForecastRecyclerview.layoutManager = LinearLayoutManager(this)
+        binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
     }
 
-    private suspend fun getWeather() {
-        currentWeatherViewModel.getHourlyWeather()
-        Timber.tag("eggos").e(currentWeatherViewModel.getHourlyWeather().toString())
+    private suspend fun getAllWeather() {
+        currentWeatherViewModel.getOneCallWeatherData()
+        currentWeatherViewModel.getHourlyWeatherDataFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)  // this shouldn't go here.
+        currentWeatherViewModel.getDailyForecastedWeatherFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)
     }
+
 }
 
+// Line 35.
+// a coroutine scope needs to be written to call suspend functions.  This lets you organize coroutines into groupings.
+// CoroutineScope's most common scopes are Default, IO and Main.  Default is for heavy computation.
+// Launch is the builder.

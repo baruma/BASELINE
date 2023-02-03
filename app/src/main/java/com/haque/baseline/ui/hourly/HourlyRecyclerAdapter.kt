@@ -9,14 +9,7 @@ import com.haque.baseline.R
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.databinding.HourlyWeatherCardBinding
 
-
-//@BindingAdapter("hourlyWeatherList")
-//fun bindRecylerView(recyclerView: RecyclerView, listOfHourlyWeather: List<HourlyWeatherData>?) {
-//    val adapter = recyclerView.adapter as HourlyRecyclerAdapter
-//    adapter.submitList(listOfHourlyWeather)
-//}
-
-class HourlyRecyclerAdapter(private val dataList: List<HourlyWeatherData>):
+class HourlyRecyclerAdapter(private val dataList: MutableList<HourlyWeatherData>):
     RecyclerView.Adapter<HourlyRecyclerAdapter.HourlyViewHolder>() {
 
     class HourlyViewHolder(private var binding: HourlyWeatherCardBinding) :
@@ -31,8 +24,10 @@ class HourlyRecyclerAdapter(private val dataList: List<HourlyWeatherData>):
         }
     }
 
-    fun updateRecyclerDate() {
-        // Okay, the Observer is going to call this function to populate the recycler with Hourly Data.
+    fun updateRecyclerDate(newDataList: List<HourlyWeatherData>) {
+        dataList.clear()
+        dataList.addAll(newDataList)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyViewHolder {

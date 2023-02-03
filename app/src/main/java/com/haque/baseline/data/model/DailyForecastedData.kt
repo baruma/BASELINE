@@ -24,4 +24,4 @@ data class DailyForecastedData(
     val minTemperature: Double,
     val precipitationSum: Double,
     val precipitationHours: Double,
-        )
+)

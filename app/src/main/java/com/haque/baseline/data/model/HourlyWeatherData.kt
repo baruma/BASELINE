@@ -1,7 +1,6 @@
 package com.haque.baseline.data.model
 
-import com.squareup.moshi.Json
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 /* Basically, what do you want to display in your cards.
 
@@ -14,13 +13,12 @@ Hourly Cards just need:
 IDEA: but it has all this info.... sounds like there's room in the future for a tap for details feature.
  */
 
-data class HourlyWeatherData (
-    val time: LocalDateTime,
+data class HourlyWeatherData(
+    val time: LocalDate,
     val temperatureInFahrenheit: Double,
     val apparentTemperatureInFahrenheit: Double,
     val humidity: Long,
     val weatherCode: Long,
-//    val pressure: Double,
     val windSpeed: Double,
     val visibility: Double
-    )
+)

@@ -35,21 +35,12 @@ class MainActivity : AppCompatActivity() {
             dailyWeatherRecyclerAdapter.updateRecyclerData(dailyForecastedWeather)
         }
 
+            // should be ordered as ui, observables then networking code.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.weather_fragment)
-
-        currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
-
-        CoroutineScope(IO).launch {
-            ()
-        }
 
         val binding: WeatherFragmentBinding = DataBindingUtil.setContentView(
             this, R.layout.weather_fragment)
-
-        currentWeatherViewModel.hourlyWeatherDataResponse.observe(binding.lifecycleOwner!!,
-            hourlyWeatherObserver)
 
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
         binding.hourlyWeatherRecyclerview.layoutManager = LinearLayoutManager(this)
@@ -58,6 +49,17 @@ class MainActivity : AppCompatActivity() {
         dailyWeatherRecyclerAdapter = DailyWeatherRecyclerAdapter(mutableListOf())
         binding.dailyWeatherForecastRecyclerview.layoutManager = LinearLayoutManager(this)
         binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
+
+        currentWeatherViewModel.hourlyWeatherDataResponse.observe(binding.lifecycleOwner!!,
+            hourlyWeatherObserver)
+        currentWeatherViewModel.dailyForecastedWeatherData.observe(binding.lifecycleOwner!!,
+            dailyWeatherObserver)
+
+        currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
+
+        CoroutineScope(IO).launch {
+            getAllWeather()
+        }
     }
 
     private suspend fun getAllWeather() {

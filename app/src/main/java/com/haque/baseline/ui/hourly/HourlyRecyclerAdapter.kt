@@ -2,6 +2,7 @@ package com.haque.baseline.ui.hourly
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R
@@ -9,7 +10,13 @@ import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.databinding.HourlyWeatherCardBinding
 
 
-class HourlyRecyclerAdapter(private val dataList: List<HourlyWeatherData>, position: Int) :
+//@BindingAdapter("hourlyWeatherList")
+//fun bindRecylerView(recyclerView: RecyclerView, listOfHourlyWeather: List<HourlyWeatherData>?) {
+//    val adapter = recyclerView.adapter as HourlyRecyclerAdapter
+//    adapter.submitList(listOfHourlyWeather)
+//}
+
+class HourlyRecyclerAdapter(private val dataList: List<HourlyWeatherData>):
     RecyclerView.Adapter<HourlyRecyclerAdapter.HourlyViewHolder>() {
 
     class HourlyViewHolder(private var binding: HourlyWeatherCardBinding) :
@@ -24,6 +31,10 @@ class HourlyRecyclerAdapter(private val dataList: List<HourlyWeatherData>, posit
         }
     }
 
+    fun updateRecyclerDate() {
+        // Okay, the Observer is going to call this function to populate the recycler with Hourly Data.
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyViewHolder {
         val binding: HourlyWeatherCardBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
@@ -31,7 +42,6 @@ class HourlyRecyclerAdapter(private val dataList: List<HourlyWeatherData>, posit
             parent,
             false
         )
-
         return HourlyViewHolder(binding)
     }
 

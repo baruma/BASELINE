@@ -82,11 +82,10 @@ dependencies {
     def nav_version = "2.5.3"
 
     // Navigation
-    // Kotlin
+    // Kotlin Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    // Kotlin
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
@@ -95,4 +94,8 @@ dependencies {
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+    // Location
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+
 }

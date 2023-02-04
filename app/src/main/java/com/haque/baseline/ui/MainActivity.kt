@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         val binding: WeatherFragmentBinding = DataBindingUtil.setContentView(
             this, R.layout.weather_fragment)
 
+        currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
+
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
         binding.hourlyWeatherRecyclerview.layoutManager = LinearLayoutManager(this)
         binding.hourlyWeatherRecyclerview.adapter = hourlyWeatherRecyclerAdapter
@@ -50,12 +52,12 @@ class MainActivity : AppCompatActivity() {
         binding.dailyWeatherForecastRecyclerview.layoutManager = LinearLayoutManager(this)
         binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
 
-        currentWeatherViewModel.hourlyWeatherDataResponse.observe(binding.lifecycleOwner!!,
-            hourlyWeatherObserver)
-        currentWeatherViewModel.dailyForecastedWeatherData.observe(binding.lifecycleOwner!!,
-            dailyWeatherObserver)
 
-        currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
+            currentWeatherViewModel.hourlyWeatherDataResponse.observe(this,
+                hourlyWeatherObserver)
+            currentWeatherViewModel.dailyForecastedWeatherData.observe(this,
+                dailyWeatherObserver)
+
 
         CoroutineScope(IO).launch {
             getAllWeather()

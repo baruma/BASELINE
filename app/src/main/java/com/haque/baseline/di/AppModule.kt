@@ -1,5 +1,8 @@
 package com.haque.baseline.di
 
+import android.app.Application
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.haque.baseline.data.source.source.remote.WeatherApi
 import com.haque.baseline.data.source.source.repository.WeatherRepository
 import com.haque.baseline.data.source.source.repository.WeatherRepositoryImpl
@@ -32,5 +35,11 @@ object AppModule {
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(app)
     }
 }

@@ -12,7 +12,7 @@ abstract class ViewModelModule {
 
     // This function is redundant.  Remove during code clean up.
     @Binds
-    abstract fun provideWeatherRepositoryImpl(
+    abstract fun bindWeatherRepositoryImpl(
         weatherRepositoryImpl: WeatherRepositoryImpl): WeatherRepositoryImpl
 }
 

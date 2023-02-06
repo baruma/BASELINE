@@ -16,6 +16,8 @@ class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecas
 
             fun bind(dailyForecastedWeather: DailyForecastedData) {
                 binding.executePendingBindings()
+                binding.dayCardMinTempTextview.text = dailyForecastedWeather.minTemperature.toString()
+                binding.dayCardMaxTempTextview.text = dailyForecastedWeather.maxTemperature.toString()
             }
         }
 

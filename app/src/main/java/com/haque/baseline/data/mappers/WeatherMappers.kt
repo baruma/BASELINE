@@ -28,6 +28,7 @@ fun HourlyWeatherDTO.toHourlyWeather(): List<HourlyWeatherData> {
             time = LocalDate.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
             temperatureInFahrenheit,
             apparentTemperature,
+            precipitation,
             humidity,
             weatherCode,
             windSpeed,

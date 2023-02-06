@@ -1,14 +1,12 @@
-package com.haque.baseline.data.source.source.repository
+package com.haque.baseline.domain
 
-import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
-import com.haque.baseline.domain.Resource
-import okhttp3.ResponseBody
 
 
 interface WeatherRepository {
     // suspend fun getOneCallWeatherPayload(lat: Double, long: Double): Resource<OneCallWeatherPayloadData>
-    suspend fun testAPIResponse(lat: Double, lng: Double): OneCallWeatherPayloadDTO
+    // Should move this similarly to LocationService to follow the structure.
+    suspend fun getOneCallAPIResponse(lat: Double, lng: Double): OneCallWeatherPayloadDTO
 }
 
 /*

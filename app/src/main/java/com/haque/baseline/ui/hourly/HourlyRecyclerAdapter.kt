@@ -20,6 +20,7 @@ class HourlyRecyclerAdapter(private val dataList: MutableList<HourlyWeatherData>
 
             binding.hourlyData = hourlyWeather
             binding.hourlyCardTemperatureTextview.text = hourlyWeather.temperatureInFahrenheit.toString()
+            binding.hourlyCardTimeTextview.text = hourlyWeather.time.toString()
             binding.executePendingBindings()
         }
     }

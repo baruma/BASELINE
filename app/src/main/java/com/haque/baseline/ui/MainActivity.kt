@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
@@ -45,19 +46,17 @@ class MainActivity : AppCompatActivity() {
         currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
 
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
-        binding.hourlyWeatherRecyclerview.layoutManager = LinearLayoutManager(this)
+        binding.hourlyWeatherRecyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         binding.hourlyWeatherRecyclerview.adapter = hourlyWeatherRecyclerAdapter
 
         dailyWeatherRecyclerAdapter = DailyWeatherRecyclerAdapter(mutableListOf())
-        binding.dailyWeatherForecastRecyclerview.layoutManager = LinearLayoutManager(this)
+        binding.dailyWeatherForecastRecyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
-
 
             currentWeatherViewModel.hourlyWeatherDataResponse.observe(this,
                 hourlyWeatherObserver)
             currentWeatherViewModel.dailyForecastedWeatherData.observe(this,
                 dailyWeatherObserver)
-
 
         CoroutineScope(IO).launch {
             getAllWeather()

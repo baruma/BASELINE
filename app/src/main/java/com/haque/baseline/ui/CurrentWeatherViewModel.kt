@@ -3,12 +3,15 @@ package com.haque.baseline.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.haque.baseline.data.mappers.toOneCallWeatherPayloadData
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.OneCallWeatherPayloadData
-import com.haque.baseline.data.source.source.repository.WeatherRepository
+import com.haque.baseline.domain.LocationFinder
+import com.haque.baseline.domain.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /*
@@ -18,7 +21,8 @@ AppModule (because it is annotated with @Module) and look for relevant dependenc
 
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor (
-    private val repository: WeatherRepository): ViewModel() {
+    private val repository: WeatherRepository,
+    private val locationFinder: LocationFinder): ViewModel() {
     lateinit var oneCallWeatherPayload: OneCallWeatherPayloadData
 
     private var _hourlyWeatherData = MutableLiveData<List<HourlyWeatherData>>()
@@ -31,7 +35,7 @@ class CurrentWeatherViewModel @Inject constructor (
 
     // Don't want to have too many get Functions because there's repetitve network calls going on.
     suspend fun getOneCallWeatherData() {
-        val result = repository.testAPIResponse(37.76,-122.39)
+        val result = repository.getOneCallAPIResponse(37.76,-122.39)
         oneCallWeatherPayload = result.toOneCallWeatherPayloadData()
     }
 
@@ -43,3 +47,36 @@ class CurrentWeatherViewModel @Inject constructor (
         _dailyForecastedWeatherData.postValue(payload.dailyWeather)
     }
 }
+
+
+//fun loadWeatherInfo() {
+//    viewModelScope.launch {
+//        state = state.copy(
+//            isLoading = true,
+//            error = null
+//        )
+//        locationTracker.getCurrentLocation()?.let { location ->
+//            when(val result = repository.getWeatherData(location.latitude, location.longitude)) {
+//                is Resource.Success -> {
+//                    state = state.copy(
+//                        weatherInfo = result.data,
+//                        isLoading = false,
+//                        error = null
+//                    )
+//                }
+//                is Resource.Error -> {
+//                    state = state.copy(
+//                        weatherInfo = null,
+//                        isLoading = false,
+//                        error = result.message
+//                    )
+//                }
+//            }
+//        } ?: kotlin.run {
+//            state = state.copy(
+//                isLoading = false,
+//                error = "Couldn't retrieve location. Make sure to grant permission and enable GPS."
+//            )
+//        }
+//    }
+//}

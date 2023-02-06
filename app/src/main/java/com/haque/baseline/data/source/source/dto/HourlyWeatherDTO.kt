@@ -22,9 +22,6 @@ data class HourlyWeatherDTO (
         @field:Json(name = "weathercode")
         val weatherCodes: List<Long>,
 
-//        @field:Json(name = "pressure_msl")
-//        val pressures: List<Double>,
-
         @field:Json(name = "windspeed_10m")
         val windSpeeds: List<Double>,
 

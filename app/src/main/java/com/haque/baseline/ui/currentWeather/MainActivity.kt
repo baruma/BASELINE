@@ -1,18 +1,21 @@
-package com.haque.baseline.ui
+package com.haque.baseline.ui.currentWeather
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.databinding.WeatherFragmentBinding
-import com.haque.baseline.ui.daily.DailyWeatherRecyclerAdapter
-import com.haque.baseline.ui.hourly.HourlyRecyclerAdapter
+import com.haque.baseline.ui.currentWeather.daily.DailyWeatherRecyclerAdapter
+import com.haque.baseline.ui.currentWeather.hourly.HourlyRecyclerAdapter
+import com.haque.baseline.ui.search.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var currentWeatherViewModel: CurrentWeatherViewModel
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
+    lateinit var bottomNav : BottomNavigationView
+
 
     private val hourlyWeatherObserver: Observer<List<HourlyWeatherData>> =
         Observer<List<HourlyWeatherData>> { hourlyData ->
@@ -36,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             dailyWeatherRecyclerAdapter.updateRecyclerData(dailyForecastedWeather)
         }
 
-            // should be ordered as ui, observables then networking code.
+    // should be ordered as ui, observables then networking code.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,13 +66,35 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(IO).launch {
             getAllWeather()
         }
+
+//        loadFragment()
+//        bottomNav = findViewById(R.id.bottomNav) as BottomNavigationView
+//        bottomNav.setOnItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.home -> {
+//                    loadFragment(HomeFragment())
+//                    true
+//                }
+//                R.id.search_fragment -> {
+//                    loadFragment(SearchFragment())
+//                    true
+//                }
+//
+//            }
+//        }
     }
 
     private suspend fun getAllWeather() {
         currentWeatherViewModel.getOneCallWeatherData()
-        currentWeatherViewModel.getHourlyWeatherDataFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)  // this shouldn't go here.
+        currentWeatherViewModel.getHourlyWeatherDataFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)
         currentWeatherViewModel.getDailyForecastedWeatherFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)
     }
+
+//    private  fun loadFragment(fragment: Fragment){
+//        val transaction = supportFragmentManager.beginTransaction()
+//        transaction.replace(R.id.current_weather_view, fragment)
+//        transaction.commit()
+//    }
 
 }
 

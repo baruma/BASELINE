@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainActivity">
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.haque.baseline.ui.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+        android:name="com.haque.baseline.ui.currentWeather.MainActivity"
+        android:label="MainActivity" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.haque.baseline.ui.search.SearchFragment"
+        android:label="SearchFragment" >
+    </fragment>
+
 </navigation>

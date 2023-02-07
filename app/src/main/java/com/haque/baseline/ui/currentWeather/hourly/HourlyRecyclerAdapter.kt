@@ -1,4 +1,4 @@
-package com.haque.baseline.ui.hourly
+package com.haque.baseline.ui.currentWeather.hourly
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

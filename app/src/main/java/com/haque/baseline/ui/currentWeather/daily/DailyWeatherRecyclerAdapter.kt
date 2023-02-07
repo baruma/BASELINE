@@ -1,4 +1,4 @@
-package com.haque.baseline.ui.daily
+package com.haque.baseline.ui.currentWeather.daily
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -34,7 +34,7 @@ class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecas
             parent,
             false
         )
-        return DailyWeatherRecyclerAdapter.DailyForecastedWeatherViewHolder(binding)
+        return DailyForecastedWeatherViewHolder(binding)
     }
     override fun getItemCount(): Int {
         return dataList.count()

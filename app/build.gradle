@@ -81,6 +81,12 @@ dependencies {
     // NAVIGATION COMPONENTS
     def nav_version = "2.5.3"
 
+
+    def lifecycle = "2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle}"
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
+
     // Navigation
     // Kotlin Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -101,5 +107,12 @@ dependencies {
 
     // Location
     implementation 'com.google.android.gms:play-services-location:20.0.0'
+
+    // GMS
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    // Places
+    implementation 'com.google.android.libraries.places:places:3.0.0'
 
 }

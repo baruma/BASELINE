@@ -2,16 +2,26 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/weatherFragment">
 
     <activity
         android:id="@+id/mainActivity"
         android:name="com.haque.baseline.ui.currentWeather.MainActivity"
         android:label="MainActivity" />
     <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.haque.baseline.ui.currentWeather.WeatherFragment"
+        android:label="WeatherFragment" >
+        <action
+            android:id="@+id/action_weatherFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/searchFragment"
         android:name="com.haque.baseline.ui.search.SearchFragment"
         android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment" />
     </fragment>
-
 </navigation>

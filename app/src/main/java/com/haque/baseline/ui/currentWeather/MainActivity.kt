@@ -6,6 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,81 +26,16 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    // Don't need to inject this because the OS will create an instance of MainActivity, not you.
-    private lateinit var currentWeatherViewModel: CurrentWeatherViewModel
-    private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
-    private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
-    lateinit var bottomNav : BottomNavigationView
-
-
-    private val hourlyWeatherObserver: Observer<List<HourlyWeatherData>> =
-        Observer<List<HourlyWeatherData>> { hourlyData ->
-            hourlyWeatherRecyclerAdapter.updateRecyclerDate(hourlyData)
-        }
-
-    private val dailyWeatherObserver: Observer<List<DailyForecastedData>> =
-        Observer<List<DailyForecastedData>> { dailyForecastedWeather ->
-            dailyWeatherRecyclerAdapter.updateRecyclerData(dailyForecastedWeather)
-        }
-
     // should be ordered as ui, observables then networking code.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.main_activity)
 
-        val binding: WeatherFragmentBinding = DataBindingUtil.setContentView(
-            this, R.layout.weather_fragment)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        val navController = navHostFragment.navController
 
-        currentWeatherViewModel = ViewModelProvider(this)[CurrentWeatherViewModel::class.java]
-
-        hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
-        binding.hourlyWeatherRecyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        binding.hourlyWeatherRecyclerview.adapter = hourlyWeatherRecyclerAdapter
-
-        dailyWeatherRecyclerAdapter = DailyWeatherRecyclerAdapter(mutableListOf())
-        binding.dailyWeatherForecastRecyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
-
-            currentWeatherViewModel.hourlyWeatherDataResponse.observe(this,
-                hourlyWeatherObserver)
-            currentWeatherViewModel.dailyForecastedWeatherData.observe(this,
-                dailyWeatherObserver)
-
-        CoroutineScope(IO).launch {
-            getAllWeather()
-        }
-
-//        loadFragment()
-//        bottomNav = findViewById(R.id.bottomNav) as BottomNavigationView
-//        bottomNav.setOnItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.home -> {
-//                    loadFragment(HomeFragment())
-//                    true
-//                }
-//                R.id.search_fragment -> {
-//                    loadFragment(SearchFragment())
-//                    true
-//                }
-//
-//            }
-//        }
+        val navView: BottomNavigationView = findViewById(R.id.bottomNav)
+        navView.setupWithNavController(navController)
     }
-
-    private suspend fun getAllWeather() {
-        currentWeatherViewModel.getOneCallWeatherData()
-        currentWeatherViewModel.getHourlyWeatherDataFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)
-        currentWeatherViewModel.getDailyForecastedWeatherFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)
-    }
-
-//    private  fun loadFragment(fragment: Fragment){
-//        val transaction = supportFragmentManager.beginTransaction()
-//        transaction.replace(R.id.current_weather_view, fragment)
-//        transaction.commit()
-//    }
-
 }
-
-// Line 35.
-// a coroutine scope needs to be written to call suspend functions.  This lets you organize coroutines into groupings.
-// CoroutineScope's most common scopes are Default, IO and Main.  Default is for heavy computation.
-// Launch is the builder.

@@ -34,7 +34,6 @@ class CurrentWeatherViewModel @Inject constructor(
     val dailyForecastedWeatherData: LiveData<List<DailyForecastedData>>
         get() = _dailyForecastedWeatherData
 
-    // Don't want to have too many get Functions because there's repetitve network calls going on.
     suspend fun getOneCallWeatherData() {
         val result = repository.getOneCallAPIResponse(37.76, -122.39)
         oneCallWeatherPayload = result.toOneCallWeatherPayloadData()

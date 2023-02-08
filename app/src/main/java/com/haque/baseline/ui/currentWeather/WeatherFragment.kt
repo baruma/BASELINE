@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class WeatherFragment: Fragment() {
+    // so you don't have to write factories for viewmodels anymore
     private val currentWeatherViewModel by viewModels<CurrentWeatherViewModel>()
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter

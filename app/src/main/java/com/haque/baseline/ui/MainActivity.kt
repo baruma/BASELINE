@@ -1,4 +1,4 @@
-package com.haque.baseline.ui.currentWeather
+package com.haque.baseline.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

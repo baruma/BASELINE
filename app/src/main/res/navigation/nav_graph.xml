@@ -6,7 +6,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.haque.baseline.ui.currentWeather.MainActivity"
+        android:name="com.haque.baseline.ui.MainActivity"
         android:label="MainActivity" />
     <fragment
         android:id="@+id/weatherFragment"

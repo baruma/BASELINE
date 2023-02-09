@@ -11,10 +11,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/purple_200"
         android:id="@+id/search_fragment">
 
         <SearchView
-            android:id="@+id/location_searchview"
+            android:id="@+id/place_searchview"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -22,13 +23,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/location_search_recyclerview"
+            android:id="@+id/search_recyclerview"
             android:layout_width="409dp"
             android:layout_height="654dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location_searchview" />
+            app:layout_constraintTop_toBottomOf="@+id/place_searchview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

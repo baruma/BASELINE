@@ -34,7 +34,6 @@ class WeatherFragment: Fragment() {
 
     private lateinit var binding: WeatherFragmentBinding
 
-
     private val hourlyWeatherObserver: Observer<List<HourlyWeatherData>> =
         Observer<List<HourlyWeatherData>> { hourlyData ->
             hourlyWeatherRecyclerAdapter.updateRecyclerDate(hourlyData)

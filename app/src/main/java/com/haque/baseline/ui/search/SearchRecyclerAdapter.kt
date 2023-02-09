@@ -9,12 +9,11 @@ import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.databinding.PlaceCardBinding
 
 class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
-    RecyclerView.Adapter<SearchRecyclerAdapter.SearchViewHolder>() {
+    RecyclerView.Adapter<SearchRecyclerAdapter.PlaceViewHolder>() {
 
-    class SearchViewHolder(private var binding: PlaceCardBinding) :
+    class PlaceViewHolder(private var binding: PlaceCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(placeData: PlaceData) {
-
             binding.placeNameTextview.text = placeData.name
             binding.executePendingBindings()
         }
@@ -26,21 +25,21 @@ class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder {
         val binding: PlaceCardBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.place_card,
             parent,
             false
         )
-        return SearchViewHolder(binding)
+        return PlaceViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-        return 20
+        return 5
     }
 
-    override fun onBindViewHolder(viewHolder: SearchViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: PlaceViewHolder, position: Int) {
         val data: PlaceData = dataList[position]
         viewHolder.bind(data)
     }

@@ -14,7 +14,7 @@ import com.haque.baseline.databinding.SearchFragmentBinding
 
 class SearchFragment : Fragment() {
 
-    private val searchViewModel by viewModels<SearchViewModel>()
+//    private val searchViewModel by viewModels<SearchViewModel>()
     private lateinit var searchRecyclerAdapter: SearchRecyclerAdapter
     private lateinit var binding: SearchFragmentBinding
 

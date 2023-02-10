@@ -14,7 +14,7 @@
         app:cardBackgroundColor="#E8DBFF"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,15 +24,38 @@
                 android:id="@+id/place_name_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="BOSTON TEXAS BOSTON TEXAS"
+                android:layout_marginStart="20dp"
+                android:text="BOSTON"
                 android:fontFamily="sans-serif-medium"
                 android:textSize="16sp"
                 android:textAlignment="textStart"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/place_state_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="MA"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/place_name_textview"/>
+            <TextView
+                android:id="@+id/place_country_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="USA"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/place_state_textview"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

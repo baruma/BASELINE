@@ -1,6 +1,7 @@
 package com.haque.baseline.ui.currentWeather
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,12 +23,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 @AndroidEntryPoint
 class WeatherFragment: Fragment() {
     // so you don't have to write factories for viewmodels anymore
     private val currentWeatherViewModel by viewModels<CurrentWeatherViewModel>()
+
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
     lateinit var bottomNav: BottomNavigationView
@@ -49,7 +52,6 @@ class WeatherFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(
             inflater, R.layout.weather_fragment, container,false)
@@ -58,7 +60,6 @@ class WeatherFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
         binding.hourlyWeatherRecyclerview.layoutManager =
@@ -81,6 +82,7 @@ class WeatherFragment: Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             getAllWeather()
+            upsettyfun()
         }
     }
 
@@ -90,5 +92,9 @@ class WeatherFragment: Fragment() {
         currentWeatherViewModel.getDailyForecastedWeatherFromOneCallWeatherData(
             currentWeatherViewModel.oneCallWeatherPayload
         )
+    }
+
+    private suspend fun upsettyfun() {
+        currentWeatherViewModel.upsetty()
     }
 }

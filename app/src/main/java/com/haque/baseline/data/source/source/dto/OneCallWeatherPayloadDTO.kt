@@ -13,7 +13,6 @@ data class OneCallWeatherPayloadDTO (
     @field:Json(name = "hourly")
     val hourlyWeather: HourlyWeatherDTO,
 
-    // I honestly have no idea what this variable is.
     @Json(name = "generationtime_ms")
     val generationtimeMS: Double,
 

@@ -14,7 +14,7 @@ class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
     class PlaceViewHolder(private var binding: PlaceCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(placeData: PlaceData) {
-            binding.placeNameTextview.text = placeData.name
+            binding.placeNameTextview.text = placeData.city
             binding.executePendingBindings()
         }
     }

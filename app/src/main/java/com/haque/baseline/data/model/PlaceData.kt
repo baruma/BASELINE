@@ -5,7 +5,9 @@ While the Android Locatoin class could be used, for the sake of future testing, 
 as independent of dependencies as possible.
  */
 data class PlaceData (
-    val name: String,
-    private val lat: Long,
-    private val lon: Long
+    val city: String,
+    private val lat: Float,
+    private val lon: Float,
+    val country: String,
+    val state: String
 )

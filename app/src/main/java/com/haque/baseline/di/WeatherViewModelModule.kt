@@ -6,14 +6,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-
 @InstallIn(ViewModelComponent::class)
 @Module
-abstract class ViewModelModule {
+abstract class WeatherViewModelModule {
 
-    // This function is redundant.  Remove during code clean up.
     @Binds
-    abstract fun bindWeatherRepositoryImpl(
-        weatherRepositoryImpl: WeatherRepositoryImpl): WeatherRepository
+    abstract fun bindWeatherRepositoryImpl(weatherRepositoryImpl: WeatherRepositoryImpl): WeatherRepository
+
 }
 

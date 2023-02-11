@@ -75,6 +75,7 @@ class WeatherFragment: Fragment() {
             viewLifecycleOwner,
             hourlyWeatherObserver
         )
+
         currentWeatherViewModel.dailyForecastedWeatherData.observe(
             viewLifecycleOwner,
             dailyWeatherObserver
@@ -82,10 +83,12 @@ class WeatherFragment: Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             getAllWeather()
-            upsettyfun()
         }
     }
 
+    /*
+    TODO: remove the parsing.  the view shouldn't know about business logic, nor the payload data itself.
+     */
     private suspend fun getAllWeather() {
         currentWeatherViewModel.getOneCallWeatherData()
         currentWeatherViewModel.getHourlyWeatherDataFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)
@@ -94,7 +97,4 @@ class WeatherFragment: Fragment() {
         )
     }
 
-    private suspend fun upsettyfun() {
-        currentWeatherViewModel.upsetty()
-    }
 }

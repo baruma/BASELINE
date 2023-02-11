@@ -15,6 +15,8 @@ class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(placeData: PlaceData) {
             binding.placeNameTextview.text = placeData.city
+            binding.placeStateTextview.text = placeData.state
+            binding.placeCountryTextview.text = placeData.country
             binding.executePendingBindings()
         }
     }
@@ -36,7 +38,7 @@ class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
     }
 
     override fun getItemCount(): Int {
-        return 5
+        return dataList.count()
     }
 
     override fun onBindViewHolder(viewHolder: PlaceViewHolder, position: Int) {

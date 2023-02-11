@@ -48,29 +48,28 @@ class SearchFragment : Fragment() {
         searchViewModel.placeData.observe(viewLifecycleOwner, placeObserver)
 
         CoroutineScope(IO).launch {
-//            getPlace()
-            searchForPlaceEntry()
+            getPlace()
+//            searchForPlaceEntry()
         }
     }
 
-    private fun searchForPlaceEntry() {
-        binding.placeSearchview.setOnQueryTextListener(
-            DebouncingQueryTextListener(
-                this@SearchFragment.lifecycle
-            ) { newText ->
-                newText?.let {
-                    if (it.isEmpty()) {
-                        searchViewModel.resetSearch()
-                    } else {
-//                        searchViewModel.getPlace()
-                        CoroutineScope(IO).launch {
-                            getPlace()
-                        }
-                    }
-                }
-            }
-        )
-    }
+//    private fun searchForPlaceEntry() {
+//        binding.placeSearchview.setOnQueryTextListener(
+//            DebouncingQueryTextListener(
+//                this@SearchFragment.lifecycle
+//            ) { newText ->
+//                newText?.let {
+//                    if (it.isEmpty()) {
+//                        searchViewModel.resetSearch()
+//                    } else {
+//                        CoroutineScope(IO).launch {
+//                            getPlace()
+//                        }
+//                    }
+//                }
+//            }
+//        )
+//    }
 
     // TODO: Rename this function so it's not identical to the one in ViewModel
     private suspend fun getPlace() {

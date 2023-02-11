@@ -8,18 +8,18 @@ import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.databinding.DayWeatherCardBinding
 
-class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecastedData>):
-    RecyclerView.Adapter<DailyWeatherRecyclerAdapter.DailyForecastedWeatherViewHolder>(){
+class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecastedData>) :
+    RecyclerView.Adapter<DailyWeatherRecyclerAdapter.DailyForecastedWeatherViewHolder>() {
 
-        class DailyForecastedWeatherViewHolder(private var binding: DayWeatherCardBinding):
-                RecyclerView.ViewHolder(binding.root) {
+    class DailyForecastedWeatherViewHolder(private var binding: DayWeatherCardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(dailyForecastedWeather: DailyForecastedData) {
-                binding.executePendingBindings()
-                binding.dayCardMinTempTextview.text = dailyForecastedWeather.minTemperature.toString()
-                binding.dayCardMaxTempTextview.text = dailyForecastedWeather.maxTemperature.toString()
-            }
+        fun bind(dailyForecastedWeather: DailyForecastedData) {
+            binding.executePendingBindings()
+            binding.dayCardMinTempTextview.text = dailyForecastedWeather.minTemperature.toString()
+            binding.dayCardMaxTempTextview.text = dailyForecastedWeather.maxTemperature.toString()
         }
+    }
 
     fun updateRecyclerData(newDataList: List<DailyForecastedData>) {
         dataList.clear()
@@ -27,7 +27,10 @@ class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecas
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyForecastedWeatherViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): DailyForecastedWeatherViewHolder {
         val binding: DayWeatherCardBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.day_weather_card,
@@ -36,6 +39,7 @@ class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecas
         )
         return DailyForecastedWeatherViewHolder(binding)
     }
+
     override fun getItemCount(): Int {
         return dataList.count()
     }

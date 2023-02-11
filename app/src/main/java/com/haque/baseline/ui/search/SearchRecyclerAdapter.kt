@@ -14,10 +14,10 @@ class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
     class PlaceViewHolder(private var binding: PlaceCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(placeData: PlaceData) {
+            binding.executePendingBindings()
             binding.placeNameTextview.text = placeData.city
             binding.placeStateTextview.text = placeData.state
             binding.placeCountryTextview.text = placeData.country
-            binding.executePendingBindings()
         }
     }
 

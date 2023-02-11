@@ -3,7 +3,6 @@ package com.haque.baseline.ui.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.haque.baseline.data.mappers.toOneCallWeatherPayloadData
 import com.haque.baseline.data.mappers.toPlace
 import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.domain.PlaceRepository

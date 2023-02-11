@@ -47,7 +47,7 @@ class SearchFragment : Fragment() {
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         searchViewModel.placeData.observe(viewLifecycleOwner, placeObserver)
 
-        CoroutineScope(IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             getPlace()
 //            searchForPlaceEntry()
         }

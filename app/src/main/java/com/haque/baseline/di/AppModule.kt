@@ -3,7 +3,6 @@ package com.haque.baseline.di
 import android.app.Application
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.haque.baseline.data.source.source.remote.PlaceApi
 import com.haque.baseline.data.source.source.remote.WeatherApi
 import dagger.Module
 import dagger.Provides
@@ -28,16 +27,6 @@ object AppModule {
         return Retrofit.Builder()
                 // https://api.open-meteo.com/v1/forecast?latitude=37.76&longitude=-122.39&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,visibility,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_hours&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto
             .baseUrl("https://api.open-meteo.com/v1/")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-            .create()
-    }
-
-    @Provides
-    @Singleton
-    fun providePlaceApi(): PlaceApi {
-        return Retrofit.Builder()
-            .baseUrl("https://api.api-ninjas.com/v1/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create()

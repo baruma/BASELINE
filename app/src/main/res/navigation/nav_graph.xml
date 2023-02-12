@@ -12,7 +12,7 @@
 
         <fragment
             android:id="@+id/weather"
-            android:name="com.haque.baseline.ui.currentWeather.WeatherFragment">
+            android:name="com.haque.baseline.ui.weather.WeatherFragment">
             <action
                 android:id="@+id/action_weatherFragment_to_searchFragment"
                 app:destination="@id/search" />

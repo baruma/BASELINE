@@ -1,4 +1,4 @@
-package com.haque.baseline.ui.currentWeather
+package com.haque.baseline.ui.weather
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

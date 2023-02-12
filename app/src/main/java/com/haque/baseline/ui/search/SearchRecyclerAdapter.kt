@@ -15,9 +15,8 @@ class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(placeData: PlaceData) {
             binding.executePendingBindings()
+
             binding.placeNameTextview.text = placeData.city
-            binding.placeStateTextview.text = placeData.state
-            binding.placeCountryTextview.text = placeData.country
         }
     }
 

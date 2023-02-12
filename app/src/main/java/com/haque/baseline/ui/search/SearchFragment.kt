@@ -1,5 +1,6 @@
 package com.haque.baseline.ui.search
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,6 @@ import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.databinding.SearchFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -48,8 +48,7 @@ class SearchFragment : Fragment() {
         searchViewModel.placeData.observe(viewLifecycleOwner, placeObserver)
 
         CoroutineScope(Dispatchers.IO).launch {
-            getPlace()
-//            searchForPlaceEntry()
+
         }
     }
 
@@ -71,10 +70,6 @@ class SearchFragment : Fragment() {
 //        )
 //    }
 
-    // TODO: Rename this function so it's not identical to the one in ViewModel
-    private suspend fun getPlace() {
-        searchViewModel.getPlace()
-    }
 }
 
 // TODO: Refactor this internal class - put it in its own file.
@@ -102,3 +97,4 @@ internal class DebouncingQueryTextListener(
         return false
     }
 }
+

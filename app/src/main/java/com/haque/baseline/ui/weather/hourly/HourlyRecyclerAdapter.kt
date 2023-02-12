@@ -1,8 +1,7 @@
-package com.haque.baseline.ui.currentWeather.hourly
+package com.haque.baseline.ui.weather.hourly
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R

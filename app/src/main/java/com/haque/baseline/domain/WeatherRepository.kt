@@ -2,7 +2,6 @@ package com.haque.baseline.domain
 
 import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
 
-
 interface WeatherRepository {
     // suspend fun getOneCallWeatherPayload(lat: Double, long: Double): Resource<OneCallWeatherPayloadData>
     // Should move this similarly to LocationService to follow the structure.

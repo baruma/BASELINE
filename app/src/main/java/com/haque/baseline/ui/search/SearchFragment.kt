@@ -1,11 +1,12 @@
 package com.haque.baseline.ui.search
 
-import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -43,13 +44,34 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         searchRecyclerAdapter = SearchRecyclerAdapter((mutableListOf()))
+
+        binding.placeSearchview.setOnClickListener {
+            onSearchViewTyping()
+        }
+
         binding.searchRecyclerview.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         searchViewModel.placeData.observe(viewLifecycleOwner, placeObserver)
 
-        CoroutineScope(Dispatchers.IO).launch {
 
-        }
+
+        CoroutineScope(Dispatchers.IO).launch {}
+    }
+
+     private fun onSearchViewTyping(): Boolean {
+        binding.placeSearchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // TODO: Set "Search On Type" functionality here to filter results
+                return true
+            }
+
+            @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchViewModel.searchForPlaces(query.toString())
+                return true
+            }
+        })
+        return true
     }
 
 //    private fun searchForPlaceEntry() {
@@ -72,7 +94,7 @@ class SearchFragment : Fragment() {
 
 }
 
-// TODO: Refactor this internal class - put it in its own file.
+// TODO: Refactor this class - put it in its own file.
 internal class DebouncingQueryTextListener(
     lifecycle: Lifecycle,
     private val onDebouncingQueryTextChange: (String?) -> Unit

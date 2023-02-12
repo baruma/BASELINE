@@ -14,4 +14,3 @@ abstract class WeatherViewModelModule {
     abstract fun bindWeatherRepositoryImpl(weatherRepositoryImpl: WeatherRepositoryImpl): WeatherRepository
 
 }
-

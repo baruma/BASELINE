@@ -21,5 +21,9 @@
     <fragment
         android:id="@+id/search"
         android:name="com.haque.baseline.ui.search.SearchFragment"
-        tools:layout="@layout/search_fragment" />
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_search_to_weather"
+            app:destination="@id/weather" />
+    </fragment>
 </navigation>

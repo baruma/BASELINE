@@ -16,7 +16,7 @@ class GeocoderWrapper @Inject constructor(@ApplicationContext val context: Conte
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun getAddressesFromEntry(place: String): List<PlaceData> {
         geocoder.getFromLocationName(
-            place, 10, Geocoder.GeocodeListener { listOfAddresses ->
+            place, 5, Geocoder.GeocodeListener { listOfAddresses ->
                 listOfPlaces = listOfAddresses.map { address ->
                     mapAddressToPlace(address)
                 }

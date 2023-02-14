@@ -7,15 +7,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R
 import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.databinding.PlaceCardBinding
+import timber.log.Timber
 
-class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
+
+class SearchRecyclerAdapter(
+    private val dataList: MutableList<PlaceData>, private val searchResultClickListener: SearchResultClickListener) :
     RecyclerView.Adapter<SearchRecyclerAdapter.PlaceViewHolder>() {
 
-    class PlaceViewHolder(private var binding: PlaceCardBinding) :
+    /*
+ writing a class within a class alone, will not grant the nested class permission to variables
+ of its upper nested class.  Classes nested like this are static.  A solution to this
+ is to declare it as an "inner" class, so you get access to the upper class' properties.
+
+ However, declaring inner classes can tightly couple them to the class they're inside.  This is
+ not an issue in this app, but it would be an issue if you wanted to remove this ViewHolder from
+ here to reuse in other views.
+ */
+    inner class PlaceViewHolder(private var binding: PlaceCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(placeData: PlaceData) {
             binding.executePendingBindings()
-
             binding.placeNameTextview.text = placeData.city
         }
     }
@@ -23,6 +35,7 @@ class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
     fun updateRecyclerDate(newDataList: List<PlaceData>) {
         dataList.clear()
         dataList.addAll(newDataList)
+        Timber.d("Refreshing adapter with ${newDataList.size} items")
         notifyDataSetChanged()
     }
 
@@ -42,6 +55,13 @@ class SearchRecyclerAdapter(private val dataList: MutableList<PlaceData>):
 
     override fun onBindViewHolder(viewHolder: PlaceViewHolder, position: Int) {
         val data: PlaceData = dataList[position]
+        viewHolder.itemView.setOnClickListener {
+            searchResultClickListener.onClick(data)
+        }
         viewHolder.bind(data)
     }
+}
+
+interface SearchResultClickListener {
+    fun onClick(place: PlaceData)
 }

@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,6 +17,7 @@ import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.databinding.WeatherFragmentBinding
+import com.haque.baseline.ui.search.SearchViewModel
 import com.haque.baseline.ui.weather.daily.DailyWeatherRecyclerAdapter
 import com.haque.baseline.ui.weather.hourly.HourlyRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +29,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class WeatherFragment: Fragment() {
     private val currentWeatherViewModel by viewModels<CurrentWeatherViewModel>()
+    private val sharedViewModel: SearchViewModel by activityViewModels()
 
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
@@ -56,6 +60,7 @@ class WeatherFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
 
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
         binding.hourlyWeatherRecyclerview.layoutManager =
@@ -66,6 +71,13 @@ class WeatherFragment: Fragment() {
         binding.dailyWeatherForecastRecyclerview.layoutManager =
             LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
+
+//        binding.cityTextview.text = sharedViewModel.selectedPlace.value!!.city ?: "wah"
+//        binding.cityTextview.text = sharedViewModel.selectedPlace.value.toString()
+
+        sharedViewModel.placeData.observe(viewLifecycleOwner) { places ->
+            binding.cityTextview.text = places.first().city
+        }
 
         currentWeatherViewModel.hourlyWeatherDataResponse.observe(
             viewLifecycleOwner,

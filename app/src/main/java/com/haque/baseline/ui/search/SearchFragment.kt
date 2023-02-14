@@ -90,6 +90,5 @@ class SearchFragment : Fragment() {
             }
         })
     }
-
     private fun onPlaceViewHolderClick(place: PlaceData) {}
 }

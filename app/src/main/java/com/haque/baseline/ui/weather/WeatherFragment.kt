@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
+import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.databinding.WeatherFragmentBinding
 import com.haque.baseline.ui.search.SearchViewModel
 import com.haque.baseline.ui.weather.daily.DailyWeatherRecyclerAdapter
@@ -24,10 +25,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 
 @AndroidEntryPoint
-class WeatherFragment: Fragment() {
+class WeatherFragment : Fragment() {
     private val currentWeatherViewModel by viewModels<CurrentWeatherViewModel>()
     private val sharedViewModel: SearchViewModel by activityViewModels()
 
@@ -36,6 +38,11 @@ class WeatherFragment: Fragment() {
     lateinit var bottomNav: BottomNavigationView
 
     private lateinit var binding: WeatherFragmentBinding
+
+    private val oneCallweatherDataObserver: Observer<OneCallWeatherPayloadData> =
+        Observer<OneCallWeatherPayloadData> {
+
+        }
 
     private val hourlyWeatherObserver: Observer<List<HourlyWeatherData>> =
         Observer<List<HourlyWeatherData>> { hourlyData ->
@@ -54,32 +61,41 @@ class WeatherFragment: Fragment() {
     ): View? {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(
-            inflater, R.layout.weather_fragment, container,false)
+            inflater, R.layout.weather_fragment, container, false
+        )
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val sharedViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
 
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
         binding.hourlyWeatherRecyclerview.layoutManager =
             LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+
         binding.hourlyWeatherRecyclerview.adapter = hourlyWeatherRecyclerAdapter
 
         dailyWeatherRecyclerAdapter = DailyWeatherRecyclerAdapter(mutableListOf())
         binding.dailyWeatherForecastRecyclerview.layoutManager =
             LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+
         binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
 
-//        binding.cityTextview.text = sharedViewModel.selectedPlace.value!!.city ?: "wah"
-//        binding.cityTextview.text = sharedViewModel.selectedPlace.value.toString()
+        binding.cityTextview.text = sharedViewModel.selectedPlace.value?.city ?: " "
 
         sharedViewModel.placeData.observe(viewLifecycleOwner) { places ->
             binding.cityTextview.text = places.first().city
+            binding.dateTimeTextview.text = LocalDate.now().toString()
         }
 
-        currentWeatherViewModel.hourlyWeatherDataResponse.observe(
+        currentWeatherViewModel.oneCallWeatherPayload.observe(viewLifecycleOwner) { onecallPayload ->
+            binding.currentTemperatureTextview.text =
+                onecallPayload.currentWeather.temperatureInFahrenheit.toString()
+        }
+
+        currentWeatherViewModel.hourlyWeatherData.observe(
             viewLifecycleOwner,
             hourlyWeatherObserver
         )
@@ -90,19 +106,14 @@ class WeatherFragment: Fragment() {
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            getAllWeather()
+            getWeather()
         }
     }
 
-    /*
-    TODO: remove the parsing.  the view shouldn't know about business logic, nor the payload data itself.
-     */
-    private suspend fun getAllWeather() {
-        currentWeatherViewModel.getOneCallWeatherData()
-        currentWeatherViewModel.getHourlyWeatherDataFromOneCallWeatherData(currentWeatherViewModel.oneCallWeatherPayload)
-        currentWeatherViewModel.getDailyForecastedWeatherFromOneCallWeatherData(
-            currentWeatherViewModel.oneCallWeatherPayload
-        )
+    private suspend fun getWeather() {
+        val latitude = sharedViewModel.selectedPlace.value?.lat ?: 22.22f
+        val longitude = sharedViewModel.selectedPlace.value?.lon ?: 22.22f
+        currentWeatherViewModel.getOneCallWeatherData(latitude, longitude)
     }
 
 }

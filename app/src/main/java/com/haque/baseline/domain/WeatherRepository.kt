@@ -5,7 +5,7 @@ import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
 interface WeatherRepository {
     // suspend fun getOneCallWeatherPayload(lat: Double, long: Double): Resource<OneCallWeatherPayloadData>
     // Should move this similarly to LocationService to follow the structure.
-    suspend fun getOneCallAPIResponse(lat: Double, lng: Double): OneCallWeatherPayloadDTO
+    suspend fun getOneCallAPIResponse(lat: Float, lng: Float): OneCallWeatherPayloadDTO
 }
 
 /*

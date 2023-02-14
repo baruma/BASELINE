@@ -22,11 +22,12 @@ class CurrentWeatherViewModel @Inject constructor(
     //    private val locationFinder: LocationFinder
 ) : ViewModel() {
 
-    // TODO: Remove this variable, because all the data exists in the livedata.
-    lateinit var oneCallWeatherPayload: OneCallWeatherPayloadData
+    private var _oneCallWeatherPayload = MutableLiveData<OneCallWeatherPayloadData>()
+    val oneCallWeatherPayload: LiveData<OneCallWeatherPayloadData>
+        get() = _oneCallWeatherPayload
 
     private var _hourlyWeatherData = MutableLiveData<List<HourlyWeatherData>>()
-    val hourlyWeatherDataResponse: LiveData<List<HourlyWeatherData>>
+    val hourlyWeatherData: LiveData<List<HourlyWeatherData>>
         get() = _hourlyWeatherData
 
     private var _dailyForecastedWeatherData = MutableLiveData<List<DailyForecastedData>>()
@@ -38,17 +39,13 @@ class CurrentWeatherViewModel @Inject constructor(
     daily weather data within that function.
     */
 
-    suspend fun getOneCallWeatherData() {
-        val result = repository.getOneCallAPIResponse(37.76, -122.39)
-        oneCallWeatherPayload = result.toOneCallWeatherPayloadData()
-    }
+    suspend fun getOneCallWeatherData(lat: Float, lon: Float) {
+        val result = repository.getOneCallAPIResponse(lat, lon)
+        val mappedResult = result.toOneCallWeatherPayloadData()
 
-    fun getHourlyWeatherDataFromOneCallWeatherData(payload: OneCallWeatherPayloadData) {
-        _hourlyWeatherData.postValue(payload.hourlyWeather)
-    }
-
-    fun getDailyForecastedWeatherFromOneCallWeatherData(payload: OneCallWeatherPayloadData) {
-        _dailyForecastedWeatherData.postValue(payload.dailyWeather)
+        _oneCallWeatherPayload.postValue(mappedResult)
+        _hourlyWeatherData.postValue(mappedResult.hourlyWeather)
+        _dailyForecastedWeatherData.postValue(mappedResult.dailyWeather)
     }
 
 }

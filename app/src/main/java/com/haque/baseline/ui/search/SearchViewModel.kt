@@ -21,7 +21,6 @@ class SearchViewModel @Inject constructor(
 
     var selectedPlace = MutableLiveData<PlaceData>()
 
-    //    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun searchForPlaces(place: String) {
         val places = geocoderWrapper.getAddressesFromEntry(place)
@@ -31,5 +30,4 @@ class SearchViewModel @Inject constructor(
         _placeData.value = places
         _placeData.postValue(places)
     }
-
 }

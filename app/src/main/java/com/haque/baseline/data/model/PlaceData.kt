@@ -6,8 +6,8 @@ as independent of dependencies as possible.
  */
 data class PlaceData (
     val city: String,
-    private val lat: Float,
-    private val lon: Float,
+    val lat: Float,
+    val lon: Float,
     val country: String,
     val state: String
 )

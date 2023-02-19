@@ -9,6 +9,7 @@ import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.domain.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 /*
@@ -18,8 +19,8 @@ AppModule (because it is annotated with @Module) and look for relevant dependenc
 
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor(
-    private val repository: WeatherRepository
-    //    private val locationFinder: LocationFinder
+    private val repository: WeatherRepository,
+//    private val placeFinder: PlaceFinder
 ) : ViewModel() {
 
     private var _oneCallWeatherPayload = MutableLiveData<OneCallWeatherPayloadData>()
@@ -46,6 +47,11 @@ class CurrentWeatherViewModel @Inject constructor(
         _oneCallWeatherPayload.postValue(mappedResult)
         _hourlyWeatherData.postValue(mappedResult.hourlyWeather)
         _dailyForecastedWeatherData.postValue(mappedResult.dailyWeather)
+    }
+
+    suspend fun getUserLocation() {
+//        placeFinder.getLastKnownLocation()
+//        Timber.d("Current Location: ${placeFinder.getLastKnownLocation().toString()}")
     }
 
 }

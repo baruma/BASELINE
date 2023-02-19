@@ -107,6 +107,7 @@ class WeatherFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             getWeather()
+            getCurrentLocation()
         }
     }
 
@@ -114,6 +115,10 @@ class WeatherFragment : Fragment() {
         val latitude = sharedViewModel.selectedPlace.value?.lat ?: 22.22f
         val longitude = sharedViewModel.selectedPlace.value?.lon ?: 22.22f
         currentWeatherViewModel.getOneCallWeatherData(latitude, longitude)
+    }
+
+    private suspend fun getCurrentLocation() {
+        currentWeatherViewModel.getUserLocation()
     }
 
 }

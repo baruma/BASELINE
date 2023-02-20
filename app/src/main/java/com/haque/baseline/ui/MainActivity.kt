@@ -18,39 +18,19 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haque.baseline.R
+import com.haque.baseline.utils.GeocoderWrapper
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.migration.CustomInjection.inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    // Handles User response
-    private val locationRequestPermissionLauncher = this.registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                // Only approximate location access granted.
-                // Get current location and convert it to place data
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                // User denied previously and has checked "Never ask again"
-                // show a toast with steps to manually enable it via settings
-                Toast.makeText(
-                    applicationContext,
-                    "Location Permission Denied.  Use search bar instead, or go to your settings to allow location use.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
+    @Inject lateinit var geocoderWrapper: GeocoderWrapper
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +46,26 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         checkIfLocationPermissionGranted()
+    }
 
+    // Handles User response
+    private val locationRequestPermissionLauncher = this.registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                // User denied previously and has checked "Never ask again"
+                // show a toast with steps to manually enable it via settings
+                Toast.makeText(
+                    applicationContext,
+                    "Permission Denied. Use search bar instead, or go to your settings to allow location use.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     // And this code snippet demonstrates the recommended process to check for a permission and to
@@ -80,14 +79,13 @@ class MainActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
-                        // Got last known location. In some rare situations this can be null.
-
-                        Toast.makeText(applicationContext, "location block hit", Toast.LENGTH_SHORT)
-                            .show()
+                        locationRequestPermissionLauncher.launch(arrayOf())
+//                        val name = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
+//                        Timber.d("The name of the current location is: $name")
                         Timber.d(location.toString())
                     }
             }
-            // this is the recommended flow - you're informing the user what the app is for
+            // this is the recommended flow from Google - you're informing the user what the app is for
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
                 PermissionRationaleDialogFragment().show(
                     this.supportFragmentManager, PermissionRationaleDialogFragment.TAG
@@ -105,29 +103,29 @@ class MainActivity : AppCompatActivity() {
                 locationRequestPermissionLauncher.launch(
                     arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
                 )
-                Timber.d("Else block hit")
             }
         }
     }
+
 }
 
 class PermissionRationaleDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "PermissionRationaleDialog"
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         return activity?.let {
-            // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(it)
-            builder.setMessage("The app experience will be enhanced if you allow location " +
-                    "permissions.  This way, your weather will be updated once you enter the " +
-                    "app.  Otherwise, you can manually search for places if you prefer.")
+            builder.setMessage(
+                "With Location Permissions on, your weather will be updated to your locale upon opening." +
+                        "Otherwise, you can manually search."
+            )
                 .setPositiveButton("Okay",
                     DialogInterface.OnClickListener { dialog, id ->
                         dialog.dismiss()
                     })
-            // Create the AlertDialog object and return it
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

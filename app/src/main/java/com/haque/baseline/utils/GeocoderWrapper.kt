@@ -5,8 +5,10 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.google.android.gms.location.places.Place
 import com.haque.baseline.data.model.PlaceData
 import dagger.hilt.android.qualifiers.ApplicationContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class GeocoderWrapper @Inject constructor(@ApplicationContext val context: Context) {
@@ -24,8 +26,17 @@ fun getAddressesFromEntry(place: String): List<PlaceData> {
             })
         return listOfPlaces
     }
+
+    fun getCurrentLocation(lat: Double, lon: Double) {
+        val result = geocoder.getFromLocation(lat, lon, 1)
+
+        // TODO: Handle bang operator. Consider flow in case of error.
+        val mappedresult = mapAddressToPlace(result!!.first())
+        Timber.d("The mapped data from the geocoder is: $mappedresult")
+    }
 }
 
+// TODO: Refactor so this isn't a static function.
 fun mapAddressToPlace(address: Address): PlaceData {
     return PlaceData(
         address.locality,

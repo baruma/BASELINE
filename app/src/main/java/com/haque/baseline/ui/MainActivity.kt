@@ -48,25 +48,20 @@ class MainActivity : AppCompatActivity() {
         checkIfLocationPermissionGranted()
     }
 
-    // Handles User response
-    private val locationRequestPermissionLauncher = this.registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
                 Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                // User denied previously and has checked "Never ask again"
-                // show a toast with steps to manually enable it via settings
+            } else {
                 Toast.makeText(
                     applicationContext,
-                    "Permission Denied. Use search bar instead, or go to your settings to allow location use.",
+                    "Location Denied. Use search bar, or go to your settings to allow location use.",
                     Toast.LENGTH_LONG
                 ).show()
             }
         }
-    }
 
     // And this code snippet demonstrates the recommended process to check for a permission and to
     // request a permission from the user when necessary:
@@ -79,10 +74,12 @@ class MainActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
-                        locationRequestPermissionLauncher.launch(arrayOf())
-//                        val name = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
-//                        Timber.d("The name of the current location is: $name")
-                        Timber.d(location.toString())
+                        requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+
+                        val name = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
+                        Timber.d("SCREAMING - The coordinates are: ${location.latitude} and ${location.longitude}")
+                        Timber.d("SCREAMING - The name of the current location is: $name")
+                        Timber.d("SCREAMING - $location.toString()")
                     }
             }
             // this is the recommended flow from Google - you're informing the user what the app is for
@@ -100,9 +97,8 @@ class MainActivity : AppCompatActivity() {
             else -> {
                 // You can directly ask for the permission.
                 // The registered ActivityResultCallback gets the result of this request.
-                locationRequestPermissionLauncher.launch(
-                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
-                )
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                Timber.d("SCREAMING else block hit inside checkIfLocationPermissionGranted")
             }
         }
     }

@@ -1,9 +1,11 @@
 package com.haque.baseline.data.model
 
 /*
-While the Android Locatoin class could be used, for the sake of future testing, I want the code to be
+While the Android Location
+ class could be used, for the sake of future testing, I want the code to be
 as independent of dependencies as possible.
  */
+@kotlinx.serialization.Serializable
 data class PlaceData (
     val city: String,
     val lat: Float,

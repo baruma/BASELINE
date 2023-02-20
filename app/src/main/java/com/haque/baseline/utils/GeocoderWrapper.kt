@@ -27,22 +27,19 @@ fun getAddressesFromEntry(place: String): List<PlaceData> {
         return listOfPlaces
     }
 
-    fun getCurrentLocation(lat: Double, lon: Double) {
+    fun getCurrentLocation(lat: Double, lon: Double): PlaceData {
         val result = geocoder.getFromLocation(lat, lon, 1)
+        return mapAddressToPlace(result!!.first())
+    }
 
-        // TODO: Handle bang operator. Consider flow in case of error.
-        val mappedresult = mapAddressToPlace(result!!.first())
-        Timber.d("The mapped data from the geocoder is: $mappedresult")
+    fun mapAddressToPlace(address: Address): PlaceData {
+        return PlaceData(
+            address.locality,
+            address.latitude.toFloat(),
+            address.longitude.toFloat(),
+            address.countryName,
+            address.adminArea
+        )
     }
 }
 
-// TODO: Refactor so this isn't a static function.
-fun mapAddressToPlace(address: Address): PlaceData {
-    return PlaceData(
-        address.locality,
-        address.latitude.toFloat(),
-        address.longitude.toFloat(),
-        address.countryName,
-        address.adminArea
-    )
-}

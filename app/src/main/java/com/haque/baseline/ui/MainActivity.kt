@@ -20,9 +20,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haque.baseline.R
 import com.haque.baseline.utils.GeocoderWrapper
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.migration.CustomInjection.inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -63,9 +60,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    // And this code snippet demonstrates the recommended process to check for a permission and to
-    // request a permission from the user when necessary:
-    // Checks and Requests User for Permission
     private fun checkIfLocationPermissionGranted() {
         when {
             ContextCompat.checkSelfPermission(
@@ -74,11 +68,11 @@ class MainActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
+                        val bundle = Bundle()
                         requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                        val currentPlace = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
 
-                        val name = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
-                        Timber.d("SCREAMING - The coordinates are: ${location.latitude} and ${location.longitude}")
-                        Timber.d("SCREAMING - The name of the current location is: $name")
+//                        bundle.putSerializable("place", )
                         Timber.d("SCREAMING - $location.toString()")
                     }
             }
@@ -95,21 +89,17 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
             else -> {
-                // You can directly ask for the permission.
-                // The registered ActivityResultCallback gets the result of this request.
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
                 Timber.d("SCREAMING else block hit inside checkIfLocationPermissionGranted")
             }
         }
     }
-
 }
 
 class PermissionRationaleDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "PermissionRationaleDialog"
     }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         return activity?.let {

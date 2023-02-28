@@ -1,9 +1,11 @@
 package com.haque.baseline.ui.weather
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -25,13 +27,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 
 
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
     private val currentWeatherViewModel by viewModels<CurrentWeatherViewModel>()
-    private val sharedViewModel: SearchViewModel by activityViewModels()
+    private val sharedSearchViewModel: SearchViewModel by activityViewModels()
+    private val sharedCurrentWeatherViewModel by activityViewModels<CurrentWeatherViewModel>()
+
 
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
@@ -66,10 +71,11 @@ class WeatherFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
+//        val sharedViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
 
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
         binding.hourlyWeatherRecyclerview.layoutManager =
@@ -83,9 +89,9 @@ class WeatherFragment : Fragment() {
 
         binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
 
-        binding.cityTextview.text = sharedViewModel.selectedPlace.value?.city ?: " "
+        binding.cityTextview.text = sharedSearchViewModel.selectedPlace.value?.city ?: " "
 
-        sharedViewModel.placeData.observe(viewLifecycleOwner) { places ->
+        sharedSearchViewModel.placeData.observe(viewLifecycleOwner) { places ->
             binding.cityTextview.text = places.first().city
             binding.dateTimeTextview.text = LocalDate.now().toString()
         }
@@ -106,19 +112,22 @@ class WeatherFragment : Fragment() {
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            getWeather()
-            getCurrentLocation()
+            getWeatherFromCurrentLocation()
+            Timber.d("SCREAMING COROUTINESCOPE ${getWeatherFromCurrentLocation()}")
+//            getWeather()
         }
     }
 
     private suspend fun getWeather() {
-        val latitude = sharedViewModel.selectedPlace.value?.lat ?: 22.22f
-        val longitude = sharedViewModel.selectedPlace.value?.lon ?: 22.22f
+        val latitude = sharedSearchViewModel.selectedPlace.value?.lat ?: 22.22f
+        val longitude = sharedSearchViewModel.selectedPlace.value?.lon ?: 22.22f
         currentWeatherViewModel.getOneCallWeatherData(latitude, longitude)
     }
 
-    private suspend fun getCurrentLocation() {
-        currentWeatherViewModel.getUserLocation()
-    }
 
+    private suspend fun getWeatherFromCurrentLocation() {
+        val currentLocation = sharedCurrentWeatherViewModel.currentLocation.value!!
+        currentWeatherViewModel.getOneCallWeatherData(currentLocation.lat, currentLocation.lon)
+        Timber.d("SCREAMING Weather Fragment- $currentLocation")
+    }
 }

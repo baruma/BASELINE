@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.android.gms.location.places.Place
 import com.haque.baseline.data.model.PlaceData
+import com.squareup.moshi.Json
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject

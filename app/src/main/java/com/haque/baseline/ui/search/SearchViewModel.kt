@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor(
         val places = geocoderWrapper.getAddressesFromEntry(place)
 //        val places = listOf<PlaceData>(PlaceData("San Francisco", 0.0f, 0.0f, "USA", "CA"),
 //            PlaceData("San Berdino", 0.0f, 0.0f, "USA", "CA"))
-        Timber.d("ViewMode.searchForPlaces returns with  ${places.size} items")
+        Timber.d("SCREAMING - ViewMode.searchForPlaces returns with  ${places.size} items")
         _placeData.value = places
         _placeData.postValue(places)
     }

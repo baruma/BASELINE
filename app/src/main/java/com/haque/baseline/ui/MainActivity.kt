@@ -1,6 +1,7 @@
 package com.haque.baseline.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -9,6 +10,7 @@ import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -18,16 +20,20 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haque.baseline.R
+import com.haque.baseline.ui.weather.CurrentWeatherViewModel
+import com.haque.baseline.ui.weather.WeatherFragment
 import com.haque.baseline.utils.GeocoderWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var geocoderWrapper: GeocoderWrapper
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val sharedCurrentLocationViewModel by viewModels<CurrentWeatherViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +51,19 @@ class MainActivity : AppCompatActivity() {
         checkIfLocationPermissionGranted()
     }
 
+    @SuppressLint("MissingPermission")
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
                 Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
+                fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location: Location? ->
+                        val currentPlace = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
+                        sharedCurrentLocationViewModel.currentLocation.value = currentPlace
+                        Timber.d("SCREAMING Main Activity- ${sharedCurrentLocationViewModel.currentLocation.value}")
+                    }
             } else {
                 Toast.makeText(
                     applicationContext,
@@ -68,15 +81,12 @@ class MainActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
-                        val bundle = Bundle()
-                        requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
                         val currentPlace = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
 
-//                        bundle.putSerializable("place", )
-                        Timber.d("SCREAMING - $location.toString()")
+                        sharedCurrentLocationViewModel.currentLocation.value = currentPlace
+                        Timber.d("SCREAMING Main Activity- ${sharedCurrentLocationViewModel.currentLocation.value}")
                     }
             }
-            // this is the recommended flow from Google - you're informing the user what the app is for
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
                 PermissionRationaleDialogFragment().show(
                     this.supportFragmentManager, PermissionRationaleDialogFragment.TAG

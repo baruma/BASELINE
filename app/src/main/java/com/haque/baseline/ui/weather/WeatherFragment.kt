@@ -13,11 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
-import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.databinding.WeatherFragmentBinding
 import com.haque.baseline.ui.search.SearchViewModel
@@ -41,14 +39,8 @@ class WeatherFragment : Fragment() {
 
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
-    lateinit var bottomNav: BottomNavigationView
 
     private lateinit var binding: WeatherFragmentBinding
-
-    private val oneCallweatherDataObserver: Observer<OneCallWeatherPayloadData> =
-        Observer<OneCallWeatherPayloadData> {
-
-        }
 
     private val currentPlaceObserver: Observer<PlaceData> =
         Observer<PlaceData> {
@@ -125,11 +117,11 @@ class WeatherFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             getWeatherFromCurrentLocation()
-//            getWeather()
+            getWeatherFromSearch()
         }
     }
 
-    private suspend fun getWeather() {
+    private suspend fun getWeatherFromSearch() {
         val latitude = sharedSearchViewModel.selectedPlace.value?.lat ?: 22.22f
         val longitude = sharedSearchViewModel.selectedPlace.value?.lon ?: 22.22f
         currentWeatherViewModel.getOneCallWeatherData(latitude, longitude)

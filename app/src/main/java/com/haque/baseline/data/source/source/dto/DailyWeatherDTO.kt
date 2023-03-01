@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class DailyWeatherDTO (
+data class DailyWeatherDTO(
     val time: List<String>,
 
     @field:Json(name = "weathercode")
@@ -21,4 +21,4 @@ data class DailyWeatherDTO (
 
     @field:Json(name = "precipitation_hours")
     val precipitationHours: List<Double>
-    )
+)

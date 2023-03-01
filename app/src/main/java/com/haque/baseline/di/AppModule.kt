@@ -6,7 +6,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.haque.baseline.data.source.source.remote.WeatherApi
 import com.haque.baseline.utils.GeocoderWrapper
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,11 +16,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
-/*
-You declare modules for individual purposes, like broadcast modules, auth modules, etc.
-You can declare modules for specific scopes.  Whatever works for the purpose of the app.
-AppModule is different it seems.
- */
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -47,8 +41,5 @@ object AppModule {
     fun provideGeocoderWrapper(@ApplicationContext appContext: Context): GeocoderWrapper {
         return GeocoderWrapper(context = appContext)
     }
-
-    // SearchViewModel Comparison
-    //    abstract fun bindGeocoderWrapper(@ApplicationContext context: Context): GeocoderWrapper
 
 }

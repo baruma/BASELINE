@@ -5,17 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.SearchView.OnQueryTextListener
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +25,7 @@ import timber.log.Timber
 class SearchFragment : Fragment() {
 
     //    private val searchViewModel by viewModels<SearchViewModel>()
-    private val searchViewModel: SearchViewModel by activityViewModels()  // this vm is scoped to our activity
+    private val searchViewModel: SearchViewModel by activityViewModels()
 
     private lateinit var searchRecyclerAdapter: SearchRecyclerAdapter
     private lateinit var binding: SearchFragmentBinding
@@ -58,15 +53,16 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchRecyclerAdapter = SearchRecyclerAdapter((mutableListOf()), object : SearchResultClickListener {
-            override fun onClick(place: PlaceData) {
-                // from the viewmodel, the weather fragment can get the place's coordinates.
-                searchViewModel.selectedPlace.value = place
-                findNavController().navigate(R.id.action_search_to_weather)
-                Timber.d("Place Data: ${place.city} ")
-            }
+        searchRecyclerAdapter =
+            SearchRecyclerAdapter((mutableListOf()), object : SearchResultClickListener {
+                override fun onClick(place: PlaceData) {
+                    // from the viewmodel, the weather fragment can get the place's coordinates.
+                    searchViewModel.selectedPlace.value = place
+                    findNavController().navigate(R.id.action_search_to_weather)
+                    Timber.d("Place Data: ${place.city} ")
+                }
 
-        })
+            })
         binding.searchRecyclerview.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
@@ -90,5 +86,6 @@ class SearchFragment : Fragment() {
             }
         })
     }
+
     private fun onPlaceViewHolderClick(place: PlaceData) {}
 }

@@ -21,7 +21,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haque.baseline.R
 import com.haque.baseline.ui.weather.CurrentWeatherViewModel
-import com.haque.baseline.ui.weather.WeatherFragment
 import com.haque.baseline.utils.GeocoderWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -31,7 +30,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject lateinit var geocoderWrapper: GeocoderWrapper
+    @Inject
+    lateinit var geocoderWrapper: GeocoderWrapper
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val sharedCurrentLocationViewModel by viewModels<CurrentWeatherViewModel>()
 
@@ -60,7 +60,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
-                        val currentPlace = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
+                        val currentPlace = geocoderWrapper.getCurrentLocation(
+                            location!!.latitude,
+                            location.longitude
+                        )
                         sharedCurrentLocationViewModel.currentLocation.value = currentPlace
                         Timber.d("SCREAMING Main Activity- ${sharedCurrentLocationViewModel.currentLocation.value}")
                     }
@@ -81,7 +84,10 @@ class MainActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
-                        val currentPlace = geocoderWrapper.getCurrentLocation(location!!.latitude, location.longitude)
+                        val currentPlace = geocoderWrapper.getCurrentLocation(
+                            location!!.latitude,
+                            location.longitude
+                        )
 
                         sharedCurrentLocationViewModel.currentLocation.value = currentPlace
                         Timber.d("SCREAMING Main Activity- ${sharedCurrentLocationViewModel.currentLocation.value}")
@@ -110,6 +116,7 @@ class PermissionRationaleDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "PermissionRationaleDialog"
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         return activity?.let {

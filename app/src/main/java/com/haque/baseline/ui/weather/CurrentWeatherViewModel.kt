@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor(
-    private val repository: WeatherRepository) : ViewModel() {
+    private val repository: WeatherRepository
+) : ViewModel() {
 
     private var _oneCallWeatherPayload = MutableLiveData<OneCallWeatherPayloadData>()
     val oneCallWeatherPayload: LiveData<OneCallWeatherPayloadData>
@@ -28,9 +29,11 @@ class CurrentWeatherViewModel @Inject constructor(
     val dailyForecastedWeatherData: LiveData<List<DailyForecastedData>>
         get() = _dailyForecastedWeatherData
 
-    // Using this because MutableLiveData has a public getter/setter that can be used in MainActivity
-    // Whereas LiveData doesn't have this
-    val currentLocation = MutableLiveData<PlaceData>(PlaceData("New York", 43.00f, -75.00f, "USA", "New York"))
+    // Using only MutableLiveData  because it has a public getter/setter that can be used in MainActivity
+    // Whereas LiveData does not have this ability.
+
+    val currentLocation =
+        MutableLiveData<PlaceData>(PlaceData("New York", 43.00f, -75.00f, "USA", "New York"))
 
     /*
     TODO: Refactor the 3 functions below.  Make the network call once, and then parse the hourly and daily weather data within that function.

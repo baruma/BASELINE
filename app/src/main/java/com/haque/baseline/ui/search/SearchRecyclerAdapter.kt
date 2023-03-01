@@ -11,18 +11,11 @@ import timber.log.Timber
 
 
 class SearchRecyclerAdapter(
-    private val dataList: MutableList<PlaceData>, private val searchResultClickListener: SearchResultClickListener) :
+    private val dataList: MutableList<PlaceData>,
+    private val searchResultClickListener: SearchResultClickListener
+) :
     RecyclerView.Adapter<SearchRecyclerAdapter.PlaceViewHolder>() {
 
-    /*
- writing a class within a class alone, will not grant the nested class permission to variables
- of its upper nested class.  Classes nested like this are static.  A solution to this
- is to declare it as an "inner" class, so you get access to the upper class' properties.
-
- However, declaring inner classes can tightly couple them to the class they're inside.  This is
- not an issue in this app, but it would be an issue if you wanted to remove this ViewHolder from
- here to reuse in other views.
- */
     inner class PlaceViewHolder(private var binding: PlaceCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

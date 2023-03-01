@@ -12,9 +12,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-//Hourly payload has 168 values. Indexing 168 values will take time.
 fun HourlyWeatherDTO.toHourlyWeather(): List<HourlyWeatherData> {
-
     return time.mapIndexed { index, time ->
         val temperatureInFahrenheit = temperatures[index]
         val weatherCode = weatherCodes[index]
@@ -32,7 +30,8 @@ fun HourlyWeatherDTO.toHourlyWeather(): List<HourlyWeatherData> {
             humidity,
             weatherCode,
             windSpeed,
-            visibility)
+            visibility
+        )
     }
 }
 
@@ -64,10 +63,10 @@ fun DailyWeatherDTO.toDailyForecastedData(): List<DailyForecastedData> {
     }
 }
 
-    fun OneCallWeatherPayloadDTO.toOneCallWeatherPayloadData(): OneCallWeatherPayloadData {
-        return OneCallWeatherPayloadData (
-            this.currentWeather.toCurrentWeatherData(),
-            this.dailyWeather.toDailyForecastedData(),
-            this.hourlyWeather.toHourlyWeather()
-        )
-    }
+fun OneCallWeatherPayloadDTO.toOneCallWeatherPayloadData(): OneCallWeatherPayloadData {
+    return OneCallWeatherPayloadData(
+        this.currentWeather.toCurrentWeatherData(),
+        this.dailyWeather.toDailyForecastedData(),
+        this.hourlyWeather.toHourlyWeather()
+    )
+}

@@ -43,4 +43,3 @@ fun getAddressesFromEntry(place: String): List<PlaceData> {
         )
     }
 }
-

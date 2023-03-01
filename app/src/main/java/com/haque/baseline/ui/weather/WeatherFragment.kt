@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,6 +18,7 @@ import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.OneCallWeatherPayloadData
+import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.databinding.WeatherFragmentBinding
 import com.haque.baseline.ui.search.SearchViewModel
 import com.haque.baseline.ui.weather.daily.DailyWeatherRecyclerAdapter
@@ -26,6 +26,7 @@ import com.haque.baseline.ui.weather.hourly.HourlyRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
@@ -47,6 +48,13 @@ class WeatherFragment : Fragment() {
     private val oneCallweatherDataObserver: Observer<OneCallWeatherPayloadData> =
         Observer<OneCallWeatherPayloadData> {
 
+        }
+
+    private val currentPlaceObserver: Observer<PlaceData> =
+        Observer<PlaceData> {
+            CoroutineScope(IO).launch {
+                currentWeatherViewModel.getOneCallWeatherData(it.lat, it.lon)
+            }
         }
 
     private val hourlyWeatherObserver: Observer<List<HourlyWeatherData>> =
@@ -111,9 +119,12 @@ class WeatherFragment : Fragment() {
             dailyWeatherObserver
         )
 
+        sharedCurrentWeatherViewModel.currentLocation.observe(
+            viewLifecycleOwner, currentPlaceObserver
+        )
+
         CoroutineScope(Dispatchers.IO).launch {
             getWeatherFromCurrentLocation()
-            Timber.d("SCREAMING COROUTINESCOPE ${getWeatherFromCurrentLocation()}")
 //            getWeather()
         }
     }
@@ -128,6 +139,7 @@ class WeatherFragment : Fragment() {
     private suspend fun getWeatherFromCurrentLocation() {
         val currentLocation = sharedCurrentWeatherViewModel.currentLocation.value!!
         currentWeatherViewModel.getOneCallWeatherData(currentLocation.lat, currentLocation.lon)
+
         Timber.d("SCREAMING Weather Fragment- $currentLocation")
     }
 }

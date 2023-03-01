@@ -10,13 +10,7 @@ import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.domain.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
-
-/*
-The @Inject below tells Dagger to go look for dependencies listed after it.  Dagger will go to
-AppModule (because it is annotated with @Module) and look for relevant dependencies.
- */
 
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor(
@@ -35,12 +29,11 @@ class CurrentWeatherViewModel @Inject constructor(
         get() = _dailyForecastedWeatherData
 
     // Using this because MutableLiveData has a public getter/setter that can be used in MainActivity
-    // Wheareas LiveData doesn't have this
+    // Whereas LiveData doesn't have this
     val currentLocation = MutableLiveData<PlaceData>(PlaceData("New York", 43.00f, -75.00f, "USA", "New York"))
 
     /*
-    TODO: Refactor the 3 functions below.  Make the network call once, and then parse the hourly and
-    daily weather data within that function.
+    TODO: Refactor the 3 functions below.  Make the network call once, and then parse the hourly and daily weather data within that function.
     */
     suspend fun getOneCallWeatherData(lat: Float, lon: Float) {
         val result = repository.getOneCallAPIResponse(lat, lon)

@@ -10,8 +10,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="100dp"
         android:layout_height="110dp"
+        app:cardBackgroundColor="#DCEBCA"
         android:layout_margin="5dp"
-        app:cardBackgroundColor="#B695F1"
         app:cardCornerRadius="15dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +39,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/hourly_card_weather_icon"
+                android:id="@+id/hourly_card_weather_icon_imageview"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_marginTop="20dp"

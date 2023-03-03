@@ -8,111 +8,111 @@ sealed class WeatherCodeToIcon(
     @DrawableRes val iconResource: Int
 ) {
     object ClearSky : WeatherCodeToIcon(
-        weatherDescription = "Clear Sky",
+        weatherDescription = "Clear skies - a beautiful day.",
         iconResource = R.drawable.sun_round_white
     )
     object MainlyClear : WeatherCodeToIcon(
-        weatherDescription = "Mainly clear",
+        weatherDescription = "Mostly clear - not too bad, right?",
         iconResource = R.drawable.sun_round_white
     )
     object PartlyCloudy : WeatherCodeToIcon(
-        weatherDescription = "Partly cloudy",
+        weatherDescription = "Partly cloudy - that's just free shade (or a spotty tan)",
         iconResource = R.drawable.cloud_round_white
     )
     object Overcast : WeatherCodeToIcon(
-        weatherDescription = "Overcast",
+        weatherDescription = "Overcast weather just means you save sunscreen",
         iconResource = R.drawable.cloud_round_white
     )
     object Foggy : WeatherCodeToIcon(
-        weatherDescription = "Foggy",
-        iconResource = R.drawable.fog_round_white_24
+        weatherDescription = "Foggy - angst angst angst.",
+        iconResource = R.drawable.fog_round_white
     )
     object DepositingRimeFog : WeatherCodeToIcon(
-        weatherDescription = "Depositing rime fog",
-        iconResource = R.drawable.fog_round_white_24
+        weatherDescription = "Dense fog",
+        iconResource = R.drawable.fog_round_white
     )
     object LightDrizzle : WeatherCodeToIcon(
-        weatherDescription = "Light drizzle",
+        weatherDescription = "Drizzle... you get free shower, I guess?",
         iconResource = R.drawable.precipitation_round_white
     )
     object ModerateDrizzle : WeatherCodeToIcon(
-        weatherDescription = "Moderate drizzle",
+        weatherDescription = "Rain - Save up on your water bill",
         iconResource = R.drawable.precipitation_round_white
     )
     object DenseDrizzle : WeatherCodeToIcon(
-        weatherDescription = "Dense drizzle",
+        weatherDescription = "Heavy Rain - the plants aren't drowning, they're stocking up.",
         iconResource = R.drawable.precipitation_round_white
     )
     object LightFreezingDrizzle : WeatherCodeToIcon(
-        weatherDescription = "Slight freezing drizzle",
+        weatherDescription = "Freezing Rain",
         iconResource = R.drawable.precipitation_round_white
     )
     object DenseFreezingDrizzle : WeatherCodeToIcon(
-        weatherDescription = "Dense freezing drizzle",
+        weatherDescription = "Freezing Rain",
         iconResource = R.drawable.precipitation_round_white
     )
     object SlightRain : WeatherCodeToIcon(
-        weatherDescription = "Slight rain",
+        weatherDescription = "Rain. Just rain. I have nothing for this.",
         iconResource = R.drawable.precipitation_round_white
     )
     object ModerateRain : WeatherCodeToIcon(
-        weatherDescription = "Rainy",
+        weatherDescription = "Rain.",
         iconResource = R.drawable.precipitation_round_white
     )
     object HeavyRain : WeatherCodeToIcon(
-        weatherDescription = "Heavy rain",
+        weatherDescription = "Heavy Rain. Curl up by a window.",
         iconResource = R.drawable.precipitation_round_white
     )
     object HeavyFreezingRain: WeatherCodeToIcon(
-        weatherDescription = "Heavy freezing rain",
+        weatherDescription = "Heavy Freezing Rain - Curl up by a window in a blanket",
         iconResource = R.drawable.precipitation_round_white
     )
     object SlightSnowFall: WeatherCodeToIcon(
-        weatherDescription = "Slight snow fall",
+        weatherDescription = "Slight Snow",
         iconResource = R.drawable.precipitation_round_white
     )
     object ModerateSnowFall: WeatherCodeToIcon(
-        weatherDescription = "Moderate snow fall",
+        weatherDescription = "Moderate Snow",
         iconResource = R.drawable.precipitation_round_white
     )
     object HeavySnowFall: WeatherCodeToIcon(
-        weatherDescription = "Heavy snow fall",
+        weatherDescription = "Heavy Snow. Thick land clouds.",
         iconResource = R.drawable.precipitation_round_white
     )
     object SnowGrains: WeatherCodeToIcon(
-        weatherDescription = "Snow grains",
+        weatherDescription = "Snow",
         iconResource = R.drawable.precipitation_round_white
     )
     object SlightRainShowers: WeatherCodeToIcon(
-        weatherDescription = "Slight rain showers",
+        weatherDescription = "Slight Rain",
         iconResource = R.drawable.precipitation_round_white
     )
     object ModerateRainShowers: WeatherCodeToIcon(
-        weatherDescription = "Moderate rain showers",
+        weatherDescription = "Moderate Rain",
         iconResource = R.drawable.precipitation_round_white
     )
     object ViolentRainShowers: WeatherCodeToIcon(
-        weatherDescription = "Violent rain showers",
+        weatherDescription = "Violent Rain",
         iconResource = R.drawable.precipitation_round_white
     )
     object SlightSnowShowers: WeatherCodeToIcon(
-        weatherDescription = "Light snow showers",
+        weatherDescription = "Light Snow",
         iconResource = R.drawable.precipitation_round_white
     )
     object HeavySnowShowers: WeatherCodeToIcon(
-        weatherDescription = "Heavy snow showers",
+        weatherDescription = "Heavy Snow",
         iconResource = R.drawable.precipitation_round_white
     )
     object ModerateThunderstorm: WeatherCodeToIcon(
-        weatherDescription = "Moderate thunderstorm",
+        weatherDescription = "Moderate Thunderstorm",
         iconResource = R.drawable.bolt_round_white
     )
     object SlightHailThunderstorm: WeatherCodeToIcon(
-        weatherDescription = "Thunderstorm with slight hail",
+        weatherDescription = "Thunderstorm with Hail",
         iconResource = R.drawable.bolt_round_white
     )
     object HeavyHailThunderstorm: WeatherCodeToIcon(
-        weatherDescription = "Thunderstorm with heavy hail",
+        weatherDescription = "Thunderstorm with Hail",
         iconResource = R.drawable.bolt_round_white
     )
 

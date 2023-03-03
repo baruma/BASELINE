@@ -27,7 +27,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.time.LocalDate
 
 
 @AndroidEntryPoint
@@ -35,7 +34,6 @@ class WeatherFragment : Fragment() {
     private val currentWeatherViewModel by viewModels<CurrentWeatherViewModel>()
     private val sharedSearchViewModel: SearchViewModel by activityViewModels()
     private val sharedCurrentWeatherViewModel by activityViewModels<CurrentWeatherViewModel>()
-
 
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
@@ -75,8 +73,7 @@ class WeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val sharedViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
-
+        // Recyclers
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
         binding.hourlyWeatherRecyclerview.layoutManager =
             LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -89,16 +86,21 @@ class WeatherFragment : Fragment() {
 
         binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
 
-        binding.cityTextview.text = sharedSearchViewModel.selectedPlace.value?.city ?: " "
+        // Current Weather Card
+        binding.cityTextview.text = sharedSearchViewModel.selectedPlace.value?.city ?: "New York City"
 
+        // Observers
         sharedSearchViewModel.placeData.observe(viewLifecycleOwner) { places ->
             binding.cityTextview.text = places.first().city
-            binding.dateTimeTextview.text = LocalDate.now().toString()
         }
 
         currentWeatherViewModel.oneCallWeatherPayload.observe(viewLifecycleOwner) { onecallPayload ->
             binding.currentTemperatureTextview.text =
                 onecallPayload.currentWeather.temperatureInFahrenheit.toString()
+
+            binding.descriptionTextview.text = onecallPayload.currentWeather.weatherCode.weatherDescription
+
+            binding.weatherIconImageview.setImageResource(onecallPayload.currentWeather.weatherCode.iconResource)
         }
 
         currentWeatherViewModel.hourlyWeatherData.observe(

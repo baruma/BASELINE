@@ -117,7 +117,7 @@ sealed class WeatherCodeToIcon(
     )
 
     companion object {
-        fun fromWMO(code: Int): WeatherCodeToIcon {
+        fun codeToIconMapper(code: Int): WeatherCodeToIcon {
             return when(code) {
                 0 -> ClearSky
                 1 -> MainlyClear

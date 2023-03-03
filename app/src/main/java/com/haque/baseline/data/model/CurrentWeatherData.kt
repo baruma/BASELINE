@@ -1,5 +1,6 @@
 package com.haque.baseline.data.model
 
+import com.haque.baseline.utils.WeatherCodeToIcon
 import java.time.LocalDateTime
 
 data class CurrentWeatherData (
@@ -7,5 +8,5 @@ data class CurrentWeatherData (
     val temperatureInFahrenheit: Double,
     val windSpeed: Double,
     val windDirection: Double,
-    val weatherCode: Int
+    val weatherCode: WeatherCodeToIcon
     )

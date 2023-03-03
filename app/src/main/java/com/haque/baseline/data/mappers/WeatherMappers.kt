@@ -8,6 +8,7 @@ import com.haque.baseline.data.source.source.dto.CurrentWeatherDTO
 import com.haque.baseline.data.source.source.dto.DailyWeatherDTO
 import com.haque.baseline.data.source.source.dto.HourlyWeatherDTO
 import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
+import com.haque.baseline.utils.WeatherCodeToIcon
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -28,7 +29,7 @@ fun HourlyWeatherDTO.toHourlyWeather(): List<HourlyWeatherData> {
             apparentTemperature,
             precipitation,
             humidity,
-            weatherCode,
+            weatherCode = WeatherCodeToIcon.codeToIconMapper(weatherCode),
             windSpeed,
             visibility
         )
@@ -41,7 +42,7 @@ fun CurrentWeatherDTO.toCurrentWeatherData(): CurrentWeatherData {
         temperatureInFahrenheit = temperature,
         windSpeed = windSpeed,
         windDirection = windDirection,
-        weatherCode = weatherCode
+        weatherCode = WeatherCodeToIcon.codeToIconMapper(weatherCode)
     )
 }
 
@@ -54,7 +55,7 @@ fun DailyWeatherDTO.toDailyForecastedData(): List<DailyForecastedData> {
         val precipitationHours = precipitationHours[index]
         DailyForecastedData(
             time = LocalDate.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-            weatherCode,
+            weatherCode = WeatherCodeToIcon.codeToIconMapper(weatherCode),
             maxTemperature,
             minTemperature,
             precipitationSum,

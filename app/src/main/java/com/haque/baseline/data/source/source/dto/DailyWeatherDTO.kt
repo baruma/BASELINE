@@ -8,7 +8,7 @@ data class DailyWeatherDTO(
     val time: List<String>,
 
     @field:Json(name = "weathercode")
-    val weatherCodes: List<Long>,
+    val weatherCodes: List<Int>,
 
     @field:Json(name = "temperature_2m_max")
     val maxTemperatures: List<Double>,

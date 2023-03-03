@@ -1,5 +1,6 @@
 package com.haque.baseline.data.model
 
+import com.haque.baseline.utils.WeatherCodeToIcon
 import java.time.LocalDate
 
 data class HourlyWeatherData(
@@ -8,7 +9,7 @@ data class HourlyWeatherData(
     val apparentTemperatureInFahrenheit: Double,
     val precipitation: Double,
     val humidity: Long,
-    val weatherCode: Long,
+    val weatherCode: WeatherCodeToIcon,
     val windSpeed: Double,
     val visibility: Double
 )

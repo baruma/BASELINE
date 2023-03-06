@@ -16,9 +16,18 @@ class HourlyRecyclerAdapter(private val dataList: MutableList<HourlyWeatherData>
         fun bind(hourlyWeather: HourlyWeatherData) {
 
             binding.hourlyData = hourlyWeather
+
             binding.hourlyCardTemperatureTextview.text =
-                hourlyWeather.temperatureInFahrenheit.toString()
+                ("${hourlyWeather.temperatureInFahrenheit.toString()}°")
+
             binding.hourlyCardTimeTextview.text = hourlyWeather.time.toString()
+
+            binding.hourlyCardWeatherIconImageview.setImageResource(hourlyWeather.weatherCode.iconResource)
+            binding.hourlyHumidityTextview.text = ("${hourlyWeather.humidity.toString()}%")
+            binding.hourlyPrecipitationTextview.text = hourlyWeather.precipitation.toString()
+
+
+
             binding.executePendingBindings()
         }
     }

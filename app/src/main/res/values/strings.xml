@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BASELINE</string>
+    <string name="weather_icon">Weather Icon For Hour Forcast</string>
+    <string name="weather_icon_for_day_forcast">Weather_Icon_For_Day_Forcast</string>
 </resources>

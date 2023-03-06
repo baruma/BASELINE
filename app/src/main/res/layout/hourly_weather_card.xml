@@ -8,44 +8,69 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="100dp"
-        android:layout_height="110dp"
+        android:layout_width="150dp"
+        android:layout_height="170dp"
         app:cardBackgroundColor="#DCEBCA"
         android:layout_margin="5dp"
-        app:cardCornerRadius="15dp">
+        app:cardCornerRadius="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/hourly_card_temperature_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_card_time_textview" />
-
-            <TextView
                 android:id="@+id/hourly_card_time_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/hourly_card_weather_icon_imageview"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_marginTop="20dp"
+            <TextView
+                android:id="@+id/hourly_card_temperature_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="@+id/hourly_card_temperature_textview" />
+                app:layout_constraintBottom_toTopOf="@id/hourly_card_weather_icon_imageview"
+                app:layout_constraintTop_toBottomOf="@+id/hourly_card_time_textview" />
+
+            <ImageView
+                android:id="@+id/hourly_card_weather_icon_imageview"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hourly_card_temperature_textview"
+                android:contentDescription="@string/weather_icon" />
+
+            <TextView
+                android:id="@+id/hourly_humidity_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="14sp"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:flow_verticalAlign="center"
+                app:layout_constraintBottom_toTopOf="@id/hourly_precipitation_textview"
+                app:layout_constraintTop_toBottomOf="@id/hourly_card_weather_icon_imageview"/>
+
+            <TextView
+                android:id="@+id/hourly_precipitation_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/hourly_humidity_textview"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

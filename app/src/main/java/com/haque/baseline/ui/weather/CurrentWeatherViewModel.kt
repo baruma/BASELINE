@@ -46,5 +46,4 @@ class CurrentWeatherViewModel @Inject constructor(
         _hourlyWeatherData.postValue(mappedResult.hourlyWeather)
         _dailyForecastedWeatherData.postValue(mappedResult.dailyWeather)
     }
-
 }

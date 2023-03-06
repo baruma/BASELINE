@@ -96,10 +96,9 @@ class WeatherFragment : Fragment() {
 
         currentWeatherViewModel.oneCallWeatherPayload.observe(viewLifecycleOwner) { onecallPayload ->
             binding.currentTemperatureTextview.text =
-                onecallPayload.currentWeather.temperatureInFahrenheit.toString()
+                ("${onecallPayload.currentWeather.temperatureInFahrenheit.toString()}°")
 
             binding.descriptionTextview.text = onecallPayload.currentWeather.weatherCode.weatherDescription
-
             binding.weatherIconImageview.setImageResource(onecallPayload.currentWeather.weatherCode.iconResource)
         }
 
@@ -128,7 +127,6 @@ class WeatherFragment : Fragment() {
         val longitude = sharedSearchViewModel.selectedPlace.value?.lon ?: 22.22f
         currentWeatherViewModel.getOneCallWeatherData(latitude, longitude)
     }
-
 
     private suspend fun getWeatherFromCurrentLocation() {
         val currentLocation = sharedCurrentWeatherViewModel.currentLocation.value!!

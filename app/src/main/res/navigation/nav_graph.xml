@@ -26,4 +26,5 @@
             android:id="@+id/action_search_to_weather"
             app:destination="@id/weather" />
     </fragment>
+
 </navigation>

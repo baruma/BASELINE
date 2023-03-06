@@ -2,11 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/weather"
+        android:icon="@drawable/cloud_round"
         android:title="Weather" />
     <item
         android:id="@+id/search"
+        android:icon="@drawable/search_round"
         android:title="Search" />
     <item
         android:id="@+id/settings"
+        android:icon="@drawable/settings_round"
         android:title="Settings" />
 </menu>

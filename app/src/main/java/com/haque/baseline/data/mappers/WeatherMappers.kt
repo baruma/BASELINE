@@ -8,6 +8,7 @@ import com.haque.baseline.data.source.source.dto.CurrentWeatherDTO
 import com.haque.baseline.data.source.source.dto.DailyWeatherDTO
 import com.haque.baseline.data.source.source.dto.HourlyWeatherDTO
 import com.haque.baseline.data.source.source.dto.OneCallWeatherPayloadDTO
+import com.haque.baseline.utils.ReadableDateTimeHelper
 import com.haque.baseline.utils.WeatherCodeToIcon
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -18,13 +19,12 @@ fun HourlyWeatherDTO.toHourlyWeather(): List<HourlyWeatherData> {
         val temperatureInFahrenheit = temperatures[index]
         val weatherCode = weatherCodes[index]
         val windSpeed = windSpeeds[index]
-//        val pressure = pressures[index]
         val humidity = humidities[index]
         val visibility = visibilities[index]
         val precipitation = precipitations[index]
         val apparentTemperature = apparentTemperatures[index]
         HourlyWeatherData(
-            time = LocalDate.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+            time = ReadableDateTimeHelper.formatToReadableTime(this.time),
             temperatureInFahrenheit,
             apparentTemperature,
             precipitation,

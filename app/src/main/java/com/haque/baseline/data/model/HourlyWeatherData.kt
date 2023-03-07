@@ -4,7 +4,7 @@ import com.haque.baseline.utils.WeatherCodeToIcon
 import java.time.LocalDate
 
 data class HourlyWeatherData(
-    val time: LocalDate,
+    val time: String,
     val temperatureInFahrenheit: Double,
     val apparentTemperatureInFahrenheit: Double,
     val precipitation: Double,

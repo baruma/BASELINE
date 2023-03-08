@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.databinding.HourlyWeatherCardBinding
+import timber.log.Timber
 
 class HourlyRecyclerAdapter(private val dataList: MutableList<HourlyWeatherData>) :
     RecyclerView.Adapter<HourlyRecyclerAdapter.HourlyViewHolder>() {
@@ -18,12 +19,14 @@ class HourlyRecyclerAdapter(private val dataList: MutableList<HourlyWeatherData>
             binding.hourlyData = hourlyWeather
 
             binding.hourlyCardTemperatureTextview.text =
-                ("${hourlyWeather.temperatureInFahrenheit.toString()}°")
+                ("${hourlyWeather.temperatureInFahrenheit}°")
 
-            binding.hourlyCardTimeTextview.text = hourlyWeather.time.toString()
+            binding.hourlyCardTimeTextview.text = hourlyWeather.time
+
+            Timber.d("SCREAMING HOURLY TIMES FROM ADAPTER - ${hourlyWeather.time}")
 
             binding.hourlyCardWeatherIconImageview.setImageResource(hourlyWeather.weatherCode.iconResource)
-            binding.hourlyHumidityTextview.text = ("${hourlyWeather.humidity.toString()}%")
+            binding.hourlyHumidityTextview.text = ("${hourlyWeather.humidity}%")
             binding.hourlyPrecipitationTextview.text = hourlyWeather.precipitation.toString()
 
 

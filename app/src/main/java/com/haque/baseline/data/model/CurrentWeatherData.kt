@@ -4,7 +4,7 @@ import com.haque.baseline.utils.WeatherCodeToIcon
 import java.time.LocalDateTime
 
 data class CurrentWeatherData(
-    val time: LocalDateTime,
+    val time: String,
     val temperatureInFahrenheit: Double,
     val windSpeed: Double,
     val windDirection: Double,

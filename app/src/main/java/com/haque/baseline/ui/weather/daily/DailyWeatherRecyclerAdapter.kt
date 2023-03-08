@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.databinding.DayWeatherCardBinding
+import timber.log.Timber
 
 class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecastedData>) :
     RecyclerView.Adapter<DailyWeatherRecyclerAdapter.DailyForecastedWeatherViewHolder>() {
@@ -16,9 +17,13 @@ class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecas
 
         fun bind(dailyForecastedWeather: DailyForecastedData) {
             binding.executePendingBindings()
+            binding.dayCardDateTextview.text = dailyForecastedWeather.time
             binding.dayWeatherIconImageview.setImageResource(dailyForecastedWeather.weatherCode.iconResource)
-            binding.dayCardMinTempTextview.text = ("${dailyForecastedWeather.minTemperature.toString()}°")
-            binding.dayCardMaxTempTextview.text = ("${dailyForecastedWeather.maxTemperature.toString()}°")
+            binding.dayCardMinTempTextview.text = ("${dailyForecastedWeather.minTemperature}°")
+            binding.dayCardMaxTempTextview.text = ("${dailyForecastedWeather.maxTemperature}°")
+
+            Timber.d("SCREAMING DAY DATES FROM ADAPTER - ${dailyForecastedWeather.time}")
+
         }
     }
 

@@ -3,7 +3,7 @@ package com.haque.baseline.ui.weather
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.haque.baseline.data.mappers.toOneCallWeatherPayloadData
+import com.haque.baseline.data.mappers.*
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.OneCallWeatherPayloadData
@@ -40,7 +40,11 @@ class CurrentWeatherViewModel @Inject constructor(
     */
     suspend fun getOneCallWeatherData(lat: Float, lon: Float) {
         val result = repository.getOneCallAPIResponse(lat, lon)
-        val mappedResult = result.toOneCallWeatherPayloadData()
+        val mappedResult = OneCallWeatherPayloadData(
+            result.currentWeather.toCurrentWeatherData(),
+            result.dailyWeather.toDailyForecastedData(),
+            result.hourlyWeather.toHourlyWeather()
+        )
 
         _oneCallWeatherPayload.postValue(mappedResult)
         _hourlyWeatherData.postValue(mappedResult.hourlyWeather)

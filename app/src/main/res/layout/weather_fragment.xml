@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.haque.baseline.ui.weather.CurrentWeatherViewModel" />
+            type="com.haque.baseline.ui.weather.WeatherViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

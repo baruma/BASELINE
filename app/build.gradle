@@ -44,7 +44,6 @@ android {
 
 dependencies {
     def fragment_version = "1.5.5"
-
     def activity_version = "1.6.1"
 
     // Java language implementation
@@ -57,7 +56,6 @@ dependencies {
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
-
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -96,7 +94,6 @@ dependencies {
 
     // NAVIGATION COMPONENTS
     def nav_version = "2.5.3"
-
 
     def lifecycle = "2.3.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle}"

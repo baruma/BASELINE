@@ -41,5 +41,4 @@ object AppModule {
     fun provideGeocoderWrapper(@ApplicationContext appContext: Context): GeocoderWrapper {
         return GeocoderWrapper(context = appContext)
     }
-
 }

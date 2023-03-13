@@ -13,7 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CurrentWeatherViewModel @Inject constructor(
+class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository
 ) : ViewModel() {
 
@@ -32,6 +32,7 @@ class CurrentWeatherViewModel @Inject constructor(
     // Using only MutableLiveData  because it has a public getter/setter that can be used in MainActivity
     // Whereas LiveData does not have this ability.
 
+    // Default Location of NY NY
     val currentLocation =
         MutableLiveData<PlaceData>(PlaceData("New York", 43.00f, -75.00f, "USA", "New York"))
 
@@ -40,8 +41,14 @@ class CurrentWeatherViewModel @Inject constructor(
     */
     suspend fun getOneCallWeatherData(lat: Float, lon: Float) {
         val result = repository.getOneCallAPIResponse(lat, lon)
+        val currentWeather = result.currentWeather.toCurrentWeatherData()
+        // TODO: Write Shared Preferences code before tackling the rest of this flow.
+//        if(usingCelsius) {
+//            currentWeather = currentWeather.copy(temperatureInFahrenheit = convertFahrenheitToCelsius(currentWeather.temperatureInFahrenheit))
+//        }
+
         val mappedResult = OneCallWeatherPayloadData(
-            result.currentWeather.toCurrentWeatherData(),
+            currentWeather,
             result.dailyWeather.toDailyForecastedData(),
             result.hourlyWeather.toHourlyWeather()
         )
@@ -49,5 +56,11 @@ class CurrentWeatherViewModel @Inject constructor(
         _oneCallWeatherPayload.postValue(mappedResult)
         _hourlyWeatherData.postValue(mappedResult.hourlyWeather)
         _dailyForecastedWeatherData.postValue(mappedResult.dailyWeather)
+    }
+
+    fun convertFahrenheitToCelsius(tempInFahrenheit: Double): Double {
+        val celsius = ((tempInFahrenheit  -  32) *  5)/9
+
+        return celsius
     }
 }

@@ -20,7 +20,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haque.baseline.R
-import com.haque.baseline.ui.weather.CurrentWeatherViewModel
+import com.haque.baseline.ui.weather.WeatherViewModel
 import com.haque.baseline.utils.GeocoderWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var geocoderWrapper: GeocoderWrapper
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val sharedCurrentLocationViewModel by viewModels<CurrentWeatherViewModel>()
+    private val sharedWeatherViewModel by viewModels<WeatherViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity() {
                             location!!.latitude,
                             location.longitude
                         )
-                        sharedCurrentLocationViewModel.currentLocation.value = currentPlace
-                        Timber.d("SCREAMING Main Activity- ${sharedCurrentLocationViewModel.currentLocation.value}")
+                        sharedWeatherViewModel.currentLocation.value = currentPlace
+                        Timber.d("SCREAMING Main Activity- ${sharedWeatherViewModel.currentLocation.value}")
                     }
             } else {
                 Toast.makeText(
@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
                             location.longitude
                         )
 
-                        sharedCurrentLocationViewModel.currentLocation.value = currentPlace
-                        Timber.d("SCREAMING Main Activity- ${sharedCurrentLocationViewModel.currentLocation.value}")
+                        sharedWeatherViewModel.currentLocation.value = currentPlace
+                        Timber.d("SCREAMING Main Activity- ${sharedWeatherViewModel.currentLocation.value}")
                     }
             }
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {

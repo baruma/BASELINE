@@ -16,6 +16,12 @@
             <action
                 android:id="@+id/action_weatherFragment_to_searchFragment"
                 app:destination="@id/search" />
+            <action
+                android:id="@+id/action_weather_to_settings"
+                app:destination="@id/settings" />
+            <action
+                android:id="@+id/action_weather_to_search"
+                app:destination="@id/search" />
         </fragment>
 
     <fragment
@@ -25,6 +31,21 @@
         <action
             android:id="@+id/action_search_to_weather"
             app:destination="@id/weather" />
+        <action
+            android:id="@+id/action_search_to_settings"
+            app:destination="@id/settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.haque.baseline.ui.settings.SettingsFragment"
+        tools:layout="@layout/settings_fragment">
+        <action
+            android:id="@+id/action_settings_to_weather"
+            app:destination="@id/weather" />
+        <action
+            android:id="@+id/action_settings_to_search"
+            app:destination="@id/search" />
     </fragment>
 
 </navigation>

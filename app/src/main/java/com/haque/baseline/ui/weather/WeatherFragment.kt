@@ -31,9 +31,9 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
-    private val currentWeatherViewModel by viewModels<CurrentWeatherViewModel>()
+    private val currentWeatherViewModel by viewModels<WeatherViewModel>()
     private val sharedSearchViewModel: SearchViewModel by activityViewModels()
-    private val sharedCurrentWeatherViewModel by activityViewModels<CurrentWeatherViewModel>()
+    private val sharedCurrentWeatherViewModel by activityViewModels<WeatherViewModel>()  // shared between mainActivity and fragment
 
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter

@@ -26,10 +26,8 @@ class HourlyRecyclerAdapter(private val dataList: MutableList<HourlyWeatherData>
             Timber.d("SCREAMING HOURLY TIMES FROM ADAPTER - ${hourlyWeather.time}")
 
             binding.hourlyCardWeatherIconImageview.setImageResource(hourlyWeather.weatherCode.iconResource)
-            binding.hourlyHumidityTextview.text = ("${hourlyWeather.humidity}%")
-            binding.hourlyPrecipitationTextview.text = hourlyWeather.precipitation.toString()
-
-
+            binding.hourlyHumidityTextview.text = ("humidity: ${hourlyWeather.humidity}%")
+            binding.hourlyPrecipitationTextview.text = ("precipitation: ${hourlyWeather.precipitation.toString()}")
 
             binding.executePendingBindings()
         }

@@ -24,7 +24,7 @@ fun HourlyWeatherDTO.toHourlyWeather(): List<HourlyWeatherData> {
 //        val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
 //        val localTime = LocalDate.parse(time, pattern)
 
-        val hour = "temp"//localTime.format(hourFormat)
+        val hour = "temporary bc bug"//localTime.format(hourFormat)
         val temperatureInFahrenheit = temperatures[index]
         val weatherCode = weatherCodes[index]
         val windSpeed = windSpeeds[index]

@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.haque.baseline.BuildConfig
+import com.haque.baseline.data.TemperatureConstants
 import com.haque.baseline.data.source.source.remote.WeatherApi
 import com.haque.baseline.utils.GeocoderWrapper
 import dagger.Module
@@ -35,7 +36,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(app: Application): SharedPreferences {
-        return app.getSharedPreferences(BuildConfig.SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
+        return app.getSharedPreferences(TemperatureConstants.temperatureScaleKey, Context.MODE_PRIVATE)
     }
 
     @Provides

@@ -46,9 +46,7 @@ class WeatherViewModel @Inject constructor(
     val currentLocation =
         MutableLiveData<PlaceData>(PlaceData("New York", 43.00f, -75.00f, "USA", "New York"))
 
-    /*
-    TODO: Refactor the 3 functions below.  Make the network call once, and then parse the hourly and daily weather data within that function.
-    */
+
     suspend fun getOneCallWeatherData(lat: Float, lon: Float) {
         val result = repository.getOneCallAPIResponse(lat, lon)
         var currentWeather = result.currentWeather.toCurrentWeatherData()

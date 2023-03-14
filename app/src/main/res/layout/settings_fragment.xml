@@ -15,16 +15,16 @@
         android:layout_height="match_parent"
         android:background="@color/purple_700">
 
-        <Button
-            android:id="@+id/unit_converter_button"
+        <Switch
+            android:id="@+id/unit_converter_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Convert Units"
-            android:textSize="15dp"
-            android:layout_margin="10dp"
+            android:textSize="15sp"
+            android:layout_margin="120dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

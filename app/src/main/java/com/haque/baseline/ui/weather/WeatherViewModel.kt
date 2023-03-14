@@ -1,13 +1,9 @@
 package com.haque.baseline.ui.weather
 
-import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.haque.baseline.BuildConfig
 import com.haque.baseline.data.TemperatureConstants
 import com.haque.baseline.data.mappers.toCurrentWeatherData
 import com.haque.baseline.data.mappers.toDailyForecastedData
@@ -18,7 +14,9 @@ import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.domain.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.text.DecimalFormat
 import javax.inject.Inject
+import kotlin.math.truncate
 
 
 @HiltViewModel
@@ -53,10 +51,9 @@ class WeatherViewModel @Inject constructor(
         var hourlyWeather = result.hourlyWeather.toHourlyWeather()
         var dailyWeather = result.dailyWeather.toDailyForecastedData()
 
+        // If user sets toggle to Celsius, convert, otherwise return fahrenheit data.
         if (sharedPreferences.getString(
-                TemperatureConstants.temperatureScaleKey,
-                TemperatureConstants.fahrenheitScale
-            ) == TemperatureConstants.celsiusScale
+                TemperatureConstants.temperatureScaleKey, TemperatureConstants.fahrenheitScale) == TemperatureConstants.celsiusScale
         ) {
             currentWeather = currentWeather.copy(temperatureInFahrenheit = convertFahrenheitToCelsius(currentWeather.temperatureInFahrenheit))
 
@@ -84,9 +81,9 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun convertFahrenheitToCelsius(tempInFahrenheit: Double): Double {
-        val celsius = ((tempInFahrenheit - 32) * 5) / 9
+        val celsius = (((tempInFahrenheit - 32) * 5) / 9)
 
-        return celsius
+        return truncate(celsius)
     }
 
     fun convertCelsiusToFahrenheit(tempInCelsius: Double): Double {

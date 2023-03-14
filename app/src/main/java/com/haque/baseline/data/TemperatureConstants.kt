@@ -1,7 +1,7 @@
 package com.haque.baseline.data
 
 object TemperatureConstants {
-    val temperatureScaleKey = "TEMPERATURE_SCALE"
-    val celsiusScale = "Celsius"
-    val fahrenheitScale = "Fahrenheit"
+    const val temperatureScaleKey = "TEMPERATURE_SCALE"
+    const val celsiusScale = "Celsius"
+    const val fahrenheitScale = "Fahrenheit"
 }

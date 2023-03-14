@@ -90,4 +90,10 @@ class WeatherViewModel @Inject constructor(
 
         return celsius
     }
+
+    fun convertCelsiusToFahrenheit(tempInCelsius: Double): Double {
+        val fahrenheit = ((tempInCelsius* 1.8) + 32)
+
+        return fahrenheit
+    }
 }

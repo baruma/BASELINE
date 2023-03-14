@@ -1,9 +1,17 @@
 package com.haque.baseline.ui.weather
 
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.haque.baseline.data.mappers.*
+import com.haque.baseline.BuildConfig
+import com.haque.baseline.data.TemperatureConstants
+import com.haque.baseline.data.mappers.toCurrentWeatherData
+import com.haque.baseline.data.mappers.toDailyForecastedData
+import com.haque.baseline.data.mappers.toHourlyWeather
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.OneCallWeatherPayloadData
@@ -12,9 +20,10 @@ import com.haque.baseline.domain.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
-    private val repository: WeatherRepository
+    private val repository: WeatherRepository, private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private var _oneCallWeatherPayload = MutableLiveData<OneCallWeatherPayloadData>()
@@ -29,6 +38,7 @@ class WeatherViewModel @Inject constructor(
     val dailyForecastedWeatherData: LiveData<List<DailyForecastedData>>
         get() = _dailyForecastedWeatherData
 
+
     // Using only MutableLiveData  because it has a public getter/setter that can be used in MainActivity
     // Whereas LiveData does not have this ability.
 
@@ -41,17 +51,34 @@ class WeatherViewModel @Inject constructor(
     */
     suspend fun getOneCallWeatherData(lat: Float, lon: Float) {
         val result = repository.getOneCallAPIResponse(lat, lon)
-        val currentWeather = result.currentWeather.toCurrentWeatherData()
-        // TODO: Write Shared Preferences code before tackling the rest of this flow.
-//        if(usingCelsius) {
-//            currentWeather = currentWeather.copy(temperatureInFahrenheit = convertFahrenheitToCelsius(currentWeather.temperatureInFahrenheit))
-//        }
+        var currentWeather = result.currentWeather.toCurrentWeatherData()
+        var hourlyWeather = result.hourlyWeather.toHourlyWeather()
+        var dailyWeather = result.dailyWeather.toDailyForecastedData()
+
+        if (sharedPreferences.getString(
+                TemperatureConstants.temperatureScaleKey,
+                TemperatureConstants.fahrenheitScale
+            ) == TemperatureConstants.celsiusScale
+        ) {
+            currentWeather = currentWeather.copy(temperatureInFahrenheit = convertFahrenheitToCelsius(currentWeather.temperatureInFahrenheit))
+
+            hourlyWeather = hourlyWeather.map {
+                it.copy(temperatureInFahrenheit = convertFahrenheitToCelsius(it.temperatureInFahrenheit),
+                    apparentTemperatureInFahrenheit = convertFahrenheitToCelsius(it.apparentTemperatureInFahrenheit))
+            }
+
+            dailyWeather = dailyWeather.map {
+                it.copy(maxTemperature = convertFahrenheitToCelsius(it.maxTemperature),
+                    minTemperature = convertFahrenheitToCelsius(it.minTemperature))
+            }
+        }
 
         val mappedResult = OneCallWeatherPayloadData(
             currentWeather,
-            result.dailyWeather.toDailyForecastedData(),
-            result.hourlyWeather.toHourlyWeather()
+            dailyWeather,
+            hourlyWeather
         )
+
 
         _oneCallWeatherPayload.postValue(mappedResult)
         _hourlyWeatherData.postValue(mappedResult.hourlyWeather)
@@ -59,7 +86,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun convertFahrenheitToCelsius(tempInFahrenheit: Double): Double {
-        val celsius = ((tempInFahrenheit  -  32) *  5)/9
+        val celsius = ((tempInFahrenheit - 32) * 5) / 9
 
         return celsius
     }

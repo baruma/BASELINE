@@ -334,4 +334,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Shared Preferences
+shared_preferences.xml
+
 # End of https://www.gitignore.io/api/java,linux,macos,windows,android,intellij,androidstudio

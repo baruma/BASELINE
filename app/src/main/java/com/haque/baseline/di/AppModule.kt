@@ -2,8 +2,10 @@ package com.haque.baseline.di
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.haque.baseline.BuildConfig
 import com.haque.baseline.data.source.source.remote.WeatherApi
 import com.haque.baseline.utils.GeocoderWrapper
 import dagger.Module
@@ -28,6 +30,12 @@ object AppModule {
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(app: Application): SharedPreferences {
+        return app.getSharedPreferences(BuildConfig.SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
     }
 
     @Provides

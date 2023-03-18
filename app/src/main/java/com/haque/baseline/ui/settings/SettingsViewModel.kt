@@ -31,7 +31,7 @@ class SettingsViewModel @Inject constructor(private val sharedPreferences: Share
     fun isFahrenheit(): Boolean {
         return sharedPreferences.getString(
             TemperatureConstants.temperatureScaleKey,
-            TemperatureConstants.celsiusScale
+            TemperatureConstants.fahrenheitScale
         ) == fahrenheitScale
     }
 

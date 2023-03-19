@@ -31,6 +31,9 @@ import javax.inject.Inject
  GENERAL QUESTIONS NFR:
 
  - How should I change my code styling if at all?
+ - What is the general rule of thumb I should follow if I wanted to support lower levels of compileSDK?  I guess
+ what I"m trying to ask is, how low should I go?
+
  */
 
 @AndroidEntryPoint

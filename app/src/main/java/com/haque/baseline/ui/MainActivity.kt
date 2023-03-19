@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
-            if (isGranted) {9
+            if (isGranted) {9   //why is a 9 here?
                 Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
@@ -77,8 +77,8 @@ class MainActivity : AppCompatActivity() {
 
                                Mention to user that they could alternatively, search for their location.
                              */
-                            location?.latitude ?: 43.00,
-                            location?.longitude ?: -75.00
+                            location?.latitude ?: 43.00,    //extract these hard coded values and give them a good name  Repeated in line 110
+                            location?.longitude ?: -75.00  //extract these hard coded values and give them a good name.  Repeated in line 110
                         )
                         sharedWeatherViewModel.defaultCurrentLocation.value = currentPlace
                         Timber.d("SCREAMING Main Activity- ${sharedWeatherViewModel.defaultCurrentLocation.value}")

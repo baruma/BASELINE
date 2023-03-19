@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R
@@ -42,6 +43,12 @@ class WeatherFragment : Fragment() {
 
     private val currentPlaceObserver: Observer<PlaceData> =
         Observer<PlaceData> {
+            /*
+            Use lifecycle scope like below so once the fragment is out of scope, the observer wont be called.
+            lifecycleScope.launch(IO) {
+                currentWeatherViewModel.getOneCallWeatherData(it.lat, it.lon)
+            }
+             */
             CoroutineScope(IO).launch {
                 currentWeatherViewModel.getOneCallWeatherData(it.lat, it.lon)
             }
@@ -96,7 +103,7 @@ class WeatherFragment : Fragment() {
 
         currentWeatherViewModel.oneCallWeatherPayload.observe(viewLifecycleOwner) { onecallPayload ->
             binding.currentTemperatureTextview.text =
-                ("${onecallPayload.currentWeather.temperatureInFahrenheit.toString()}°")
+                ("${onecallPayload.currentWeather.temperatureInFahrenheit.toString()}°")    //don't need toString
 
             binding.descriptionTextview.text = onecallPayload.currentWeather.weatherCode.weatherDescription
             binding.weatherIconImageview.setImageResource(onecallPayload.currentWeather.weatherCode.iconResource)
@@ -116,6 +123,13 @@ class WeatherFragment : Fragment() {
             viewLifecycleOwner, currentPlaceObserver
         )
 
+        /*
+        Use lifecycle scope like below so once the fragment is out of scope, the observer wont be called.
+        lifecycleScope.launch(IO) {
+            getWeatherFromCurrentLocation()
+            getWeatherFromSearch()
+        }
+         */
         CoroutineScope(Dispatchers.IO).launch {
             getWeatherFromCurrentLocation()
             getWeatherFromSearch()
@@ -123,8 +137,8 @@ class WeatherFragment : Fragment() {
     }
 
     private suspend fun getWeatherFromSearch() {
-        val latitude = sharedSearchViewModel.selectedPlace.value?.lat ?: 22.22f
-        val longitude = sharedSearchViewModel.selectedPlace.value?.lon ?: 22.22f
+        val latitude = sharedSearchViewModel.selectedPlace.value?.lat ?: 22.22f  //is this consistent with the default NY location?
+        val longitude = sharedSearchViewModel.selectedPlace.value?.lon ?: 22.22f //is this consistent with the default NY location?
         currentWeatherViewModel.getOneCallWeatherData(latitude, longitude)
     }
 

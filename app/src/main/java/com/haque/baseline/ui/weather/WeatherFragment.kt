@@ -112,7 +112,7 @@ class WeatherFragment : Fragment() {
             dailyWeatherObserver
         )
 
-        sharedCurrentWeatherViewModel.currentLocation.observe(
+        sharedCurrentWeatherViewModel.defaultCurrentLocation.observe(
             viewLifecycleOwner, currentPlaceObserver
         )
 
@@ -129,7 +129,7 @@ class WeatherFragment : Fragment() {
     }
 
     private suspend fun getWeatherFromCurrentLocation() {
-        val currentLocation = sharedCurrentWeatherViewModel.currentLocation.value!!
+        val currentLocation = sharedCurrentWeatherViewModel.defaultCurrentLocation.value!!
         currentWeatherViewModel.getOneCallWeatherData(currentLocation.lat, currentLocation.lon)
 
         Timber.d("SCREAMING Weather Fragment- $currentLocation")

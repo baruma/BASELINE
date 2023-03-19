@@ -25,7 +25,6 @@ object AppModule {
     @Singleton
     fun provideWeatherApi(): WeatherApi {
         return Retrofit.Builder()
-                // https://api.open-meteo.com/v1/forecast?latitude=37.76&longitude=-122.39&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,visibility,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_hours&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto
             .baseUrl("https://api.open-meteo.com/v1/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
@@ -37,12 +36,6 @@ object AppModule {
     fun provideSharedPreferencesForUnitConversion(app: Application): SharedPreferences {
         return app.getSharedPreferences(TemperatureConstants.temperatureScaleKey, Context.MODE_PRIVATE)
     }
-
-//    @Provides
-//    @Singleton
-//    fun provideSharedPreferencesForToggleToCelsius(app: Application): SharedPreferences {
-//        return app.getSharedPreferences("save_celsius", Context.MODE_PRIVATE)
-//    }
 
     @Provides
     @Singleton

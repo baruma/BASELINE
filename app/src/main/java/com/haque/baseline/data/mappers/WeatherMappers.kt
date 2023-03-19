@@ -55,7 +55,6 @@ fun CurrentWeatherDTO.toCurrentWeatherData(): CurrentWeatherData {
         weatherCode = WeatherCodeToIcon.codeToIconMapper(weatherCode)
     )
 }
-
 fun DailyWeatherDTO.toDailyForecastedData(): List<DailyForecastedData> {
 
     return time.mapIndexed { index, time ->

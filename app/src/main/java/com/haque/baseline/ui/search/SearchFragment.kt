@@ -24,7 +24,6 @@ import timber.log.Timber
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    //    private val searchViewModel by viewModels<SearchViewModel>()
     private val searchViewModel: SearchViewModel by activityViewModels()
 
     private lateinit var searchRecyclerAdapter: SearchRecyclerAdapter
@@ -74,7 +73,6 @@ class SearchFragment : Fragment() {
     private fun onSearchViewTyping() {
         binding.placeSearchview.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
-                // TODO: Set "Search On Type" functionality here to filter results
                 return true
             }
 

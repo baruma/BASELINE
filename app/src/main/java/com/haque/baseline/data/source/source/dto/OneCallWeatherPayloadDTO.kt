@@ -4,6 +4,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class OneCallWeatherPayloadDTO (
+
     @field:Json(name = "latitude")
     val latitude: Float,
 
@@ -22,12 +23,6 @@ data class OneCallWeatherPayloadDTO (
     @Json(name = "timezone_abbreviation")
     val timezoneAbbreviation: String,
     val elevation: Double,
-
-//    @Json(name = "hourly_units")
-//    val hourlyUnits: HourlyUnits,
-//
-//    @Json(name = "daily_units")
-//    val dailyUnits: DailyUnits,
 
     @field:Json(name = "daily")
     val dailyWeather: DailyWeatherDTO,

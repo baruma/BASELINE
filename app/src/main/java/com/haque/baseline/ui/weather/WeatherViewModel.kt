@@ -36,23 +36,23 @@ class WeatherViewModel @Inject constructor(
     val dailyForecastedWeatherData: LiveData<List<DailyForecastedData>>
         get() = _dailyForecastedWeatherData
 
-
     // Using only MutableLiveData  because it has a public getter/setter that can be used in MainActivity
     // Whereas LiveData does not have this ability.
 
-    // Default Location of NY NY
-    val currentLocation =
+    // Default Location of NY, NY.
+    val defaultCurrentLocation =
         MutableLiveData<PlaceData>(PlaceData("New York", 43.00f, -75.00f, "USA", "New York"))
 
 
     suspend fun getOneCallWeatherData(lat: Float, lon: Float) {
+
         val result = repository.getOneCallAPIResponse(lat, lon)
         var currentWeather = result.currentWeather.toCurrentWeatherData()
         var hourlyWeather = result.hourlyWeather.toHourlyWeather()
         var dailyWeather = result.dailyWeather.toDailyForecastedData()
 
         // If user sets toggle to Celsius, convert, otherwise return fahrenheit data.
-        if (sharedPreferences.getString(
+        if (sharedPreferences.getString (
                 TemperatureConstants.temperatureScaleKey, TemperatureConstants.fahrenheitScale) == TemperatureConstants.celsiusScale
         ) {
             currentWeather = currentWeather.copy(temperatureInFahrenheit = convertFahrenheitToCelsius(currentWeather.temperatureInFahrenheit))
@@ -74,7 +74,6 @@ class WeatherViewModel @Inject constructor(
             hourlyWeather
         )
 
-
         _oneCallWeatherPayload.postValue(mappedResult)
         _hourlyWeatherData.postValue(mappedResult.hourlyWeather)
         _dailyForecastedWeatherData.postValue(mappedResult.dailyWeather)
@@ -82,13 +81,11 @@ class WeatherViewModel @Inject constructor(
 
     fun convertFahrenheitToCelsius(tempInFahrenheit: Double): Double {
         val celsius = (((tempInFahrenheit - 32) * 5) / 9)
-
         return truncate(celsius)
     }
 
     fun convertCelsiusToFahrenheit(tempInCelsius: Double): Double {
         val fahrenheit = ((tempInCelsius* 1.8) + 32)
-
         return fahrenheit
     }
 }

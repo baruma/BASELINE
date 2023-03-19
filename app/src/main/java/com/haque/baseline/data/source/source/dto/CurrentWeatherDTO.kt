@@ -5,6 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CurrentWeatherDTO(
+
     val temperature: Double,
 
     @field:Json(name = "windspeed")

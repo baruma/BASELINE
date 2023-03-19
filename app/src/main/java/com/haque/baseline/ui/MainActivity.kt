@@ -27,11 +27,18 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
+/*
+ GENERAL QUESTIONS NFR:
+
+ - How should I change my code styling if at all?
+ */
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var geocoderWrapper: GeocoderWrapper
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val sharedWeatherViewModel by viewModels<WeatherViewModel>()
 
@@ -56,16 +63,22 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
-            if (isGranted) {
+            if (isGranted) {9
                 Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
-                        val currentPlace = geocoderWrapper.getCurrentLocation(
-                            location!!.latitude,
-                            location.longitude
+                        val currentPlace = geocoderWrapper.getCurrentLocation (
+                            /*
+                               Default is NY, NY.  This is a good place to supply an alert that a
+                               default has been placed, and that the current locatoin couldn't be found.
+
+                               Mention to user that they could alternatively, search for their location.
+                             */
+                            location?.latitude ?: 43.00,
+                            location?.longitude ?: -75.00
                         )
-                        sharedWeatherViewModel.currentLocation.value = currentPlace
-                        Timber.d("SCREAMING Main Activity- ${sharedWeatherViewModel.currentLocation.value}")
+                        sharedWeatherViewModel.defaultCurrentLocation.value = currentPlace
+                        Timber.d("SCREAMING Main Activity- ${sharedWeatherViewModel.defaultCurrentLocation.value}")
                     }
             } else {
                 Toast.makeText(
@@ -85,12 +98,18 @@ class MainActivity : AppCompatActivity() {
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
                         val currentPlace = geocoderWrapper.getCurrentLocation(
-                            location!!.latitude,
-                            location.longitude
+                            /*
+                            Default is NY, NY.  This is a good place to supply an alert that a
+                            default has been placed, and that the current locatoin couldn't be found.
+
+                            Mention to user that they could alternatively, search for their location.
+                             */
+                            location?.latitude ?: 43.00,
+                            location?.longitude ?: -75.00
                         )
 
-                        sharedWeatherViewModel.currentLocation.value = currentPlace
-                        Timber.d("SCREAMING Main Activity- ${sharedWeatherViewModel.currentLocation.value}")
+                        sharedWeatherViewModel.defaultCurrentLocation.value = currentPlace
+                        Timber.d("SCREAMING Main Activity- ${sharedWeatherViewModel.defaultCurrentLocation.value}")
                     }
             }
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {

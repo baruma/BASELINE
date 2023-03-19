@@ -1,6 +1,6 @@
 package com.haque.baseline.di
 
-import com.haque.baseline.data.source.source.repository.WeatherRepositoryImpl
+import com.haque.baseline.data.source.source.implementations.WeatherRepositoryImpl
 import com.haque.baseline.domain.WeatherRepository
 import dagger.Binds
 import dagger.Module

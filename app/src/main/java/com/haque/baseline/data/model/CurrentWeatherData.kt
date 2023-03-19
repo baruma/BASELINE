@@ -10,3 +10,6 @@ data class CurrentWeatherData(
     val windDirection: Double,
     val weatherCode: WeatherCodeToIcon
 )
+
+// NFR: Should these values be Optional?
+// NFR: If so, should I declare Optional values in DTOs or Business Models?

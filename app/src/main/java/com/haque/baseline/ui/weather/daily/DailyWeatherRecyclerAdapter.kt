@@ -23,7 +23,6 @@ class DailyWeatherRecyclerAdapter(private val dataList: MutableList<DailyForecas
             binding.dayCardMaxTempTextview.text = ("${dailyForecastedWeather.maxTemperature}°")
 
             Timber.d("SCREAMING DAY DATES FROM ADAPTER - ${dailyForecastedWeather.time}")
-
         }
     }
 

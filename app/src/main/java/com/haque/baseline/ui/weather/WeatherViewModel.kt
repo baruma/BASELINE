@@ -14,7 +14,6 @@ import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.domain.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.text.DecimalFormat
 import javax.inject.Inject
 import kotlin.math.truncate
 

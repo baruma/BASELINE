@@ -1,4 +1,4 @@
-package com.haque.baseline.ui.detail
+package com.haque.baseline.ui.weather.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import com.haque.baseline.R
 import com.haque.baseline.databinding.DetailFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+// Is this AndroidEntryPoint necessary?
 @AndroidEntryPoint
 class DetailFragment: Fragment() {
     private lateinit var binding: DetailFragmentBinding

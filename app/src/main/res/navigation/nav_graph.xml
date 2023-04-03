@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.haque.baseline.ui.detail.DetailFragment"
+        android:name="com.haque.baseline.ui.weather.detail.DetailFragment"
         android:label="DetailFragment" />
 
 </navigation>

@@ -1,5 +1,7 @@
 package com.haque.baseline.ui.weather
 
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +11,12 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.haque.baseline.R
 import com.haque.baseline.data.model.DailyForecastedData
 import com.haque.baseline.data.model.HourlyWeatherData
@@ -21,10 +24,9 @@ import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.databinding.WeatherFragmentBinding
 import com.haque.baseline.ui.search.SearchViewModel
 import com.haque.baseline.ui.weather.daily.DailyWeatherRecyclerAdapter
+import com.haque.baseline.ui.weather.detail.DetailFragment
 import com.haque.baseline.ui.weather.hourly.HourlyRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -74,6 +76,11 @@ class WeatherFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // TODO: WRITE ONLICK LISTENER FOR CURRENTWEATEHRVIEW TO NAVIGATE TO DETAILVIEW
+        binding.currentWeatherView.setOnClickListener {
+            view.findNavController().navigate(R.id.detailFragment)
+        }
 
         // Recyclers
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())

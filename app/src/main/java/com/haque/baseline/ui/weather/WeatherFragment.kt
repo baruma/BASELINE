@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R
@@ -42,7 +43,8 @@ class WeatherFragment : Fragment() {
 
     private val currentPlaceObserver: Observer<PlaceData> =
         Observer<PlaceData> {
-            CoroutineScope(IO).launch {
+//            Use lifecycle scope like below so once the fragment is out of scope, the observer wont be called.
+            lifecycleScope.launch(IO) {
                 currentWeatherViewModel.getOneCallWeatherData(it.lat, it.lon)
             }
         }
@@ -96,7 +98,7 @@ class WeatherFragment : Fragment() {
 
         currentWeatherViewModel.oneCallWeatherPayload.observe(viewLifecycleOwner) { onecallPayload ->
             binding.currentTemperatureTextview.text =
-                ("${onecallPayload.currentWeather.temperatureInFahrenheit.toString()}°")
+                ("${onecallPayload.currentWeather.temperatureInFahrenheit}°")
 
             binding.descriptionTextview.text = onecallPayload.currentWeather.weatherCode.weatherDescription
             binding.weatherIconImageview.setImageResource(onecallPayload.currentWeather.weatherCode.iconResource)
@@ -116,15 +118,15 @@ class WeatherFragment : Fragment() {
             viewLifecycleOwner, currentPlaceObserver
         )
 
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch(IO) {
             getWeatherFromCurrentLocation()
             getWeatherFromSearch()
         }
     }
 
     private suspend fun getWeatherFromSearch() {
-        val latitude = sharedSearchViewModel.selectedPlace.value?.lat ?: 22.22f
-        val longitude = sharedSearchViewModel.selectedPlace.value?.lon ?: 22.22f
+        val latitude = sharedSearchViewModel.selectedPlace.value?.lat ?: 43.00f
+        val longitude = sharedSearchViewModel.selectedPlace.value?.lon ?: -75.00f
         currentWeatherViewModel.getOneCallWeatherData(latitude, longitude)
     }
 

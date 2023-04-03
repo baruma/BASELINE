@@ -26,16 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
-
-/*
- GENERAL QUESTIONS NFR:
-
- - How should I change my code styling if at all?
- - What is the general rule of thumb I should follow if I wanted to support lower levels of compileSDK?  I guess
- what I"m trying to ask is, how low should I go?
-
- */
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -73,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                         val currentPlace = geocoderWrapper.getCurrentLocation (
                             /*
                                Default is NY, NY.  This is a good place to supply an alert that a
-                               default has been placed, and that the current locatoin couldn't be found.
+                               default has been placed, and that the current location couldn't be found.
 
                                Mention to user that they could alternatively, search for their location.
                              */
@@ -107,8 +97,13 @@ class MainActivity : AppCompatActivity() {
 
                             Mention to user that they could alternatively, search for their location.
                              */
+
                             location?.latitude ?: 43.00,
                             location?.longitude ?: -75.00
+                        )
+
+                        RationaleForDefaultLocationDialogFragment().show(
+                            this.supportFragmentManager, RationaleForDefaultLocationDialogFragment.TAG
                         )
 
                         sharedWeatherViewModel.defaultCurrentLocation.value = currentPlace
@@ -146,6 +141,28 @@ class PermissionRationaleDialogFragment : DialogFragment() {
             builder.setMessage(
                 "With Location Permissions on, your weather will be updated to your locale upon opening." +
                         "Otherwise, you can manually search."
+            )
+                .setPositiveButton("Okay",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog.dismiss()
+                    })
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
+    }
+}
+
+class RationaleForDefaultLocationDialogFragment : DialogFragment() {
+    companion object {
+        const val TAG = "DefaultLocationRationale"
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        return activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.setMessage(
+                "The weather for NY, NY is set by default.  The location will update according to " +
+                        "your permissions or manual search."
             )
                 .setPositiveButton("Okay",
                     DialogInterface.OnClickListener { dialog, id ->

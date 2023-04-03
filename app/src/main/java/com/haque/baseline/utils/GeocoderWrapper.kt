@@ -16,7 +16,7 @@ class GeocoderWrapper @Inject constructor(@ApplicationContext val context: Conte
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun getAddressesFromEntry(place: String): List<PlaceData> {
         geocoder.getFromLocationName(
-            place, 5, Geocoder.GeocodeListener { listOfAddresses ->
+            place, 10, Geocoder.GeocodeListener { listOfAddresses ->
                 listOfPlaces = listOfAddresses.map { address ->
                     mapAddressToPlace(address)
                 }
@@ -25,8 +25,10 @@ fun getAddressesFromEntry(place: String): List<PlaceData> {
     }
 
     fun getCurrentLocation(lat: Double, lon: Double): PlaceData {
+        val newyorkDefault: PlaceData = PlaceData("New York", 43.00f, -75.00f, "New York", "USA")
+
         val result = geocoder.getFromLocation(lat, lon, 1)
-        return mapAddressToPlace(result!!.first())
+        return result?.first()?.let { mapAddressToPlace(it) } ?: newyorkDefault
     }
 
     fun mapAddressToPlace(address: Address): PlaceData {

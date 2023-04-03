@@ -125,8 +125,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
+
     // Places
     implementation 'com.google.android.libraries.places:places:3.0.0'
 
-
+    // Sliding Panel
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 }

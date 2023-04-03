@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.haque.baseline.ui.detail.DetailViewModel" />
+            type="com.haque.baseline.ui.weather.WeatherViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,15 +15,26 @@
         android:layout_height="match_parent"
         android:background="#E9F5DB">
 
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="E9F5DB"
+            android:textColor="#3E3E3E"
+            android:layout_margin="15dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Back"/>
+
         <View
             android:id="@+id/detail_weather_view"
             android:layout_width="match_parent"
             android:layout_height="275dp"
             android:background="#00BB8484"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/back_button"/>
 
         <TextView
             android:id="@+id/detail_city_textview"

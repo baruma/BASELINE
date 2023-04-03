@@ -22,6 +22,9 @@
             <action
                 android:id="@+id/action_weather_to_search"
                 app:destination="@id/search" />
+            <action
+                android:id="@+id/action_weather_to_detailFragment"
+                app:destination="@id/detailFragment" />
         </fragment>
 
     <fragment
@@ -47,5 +50,9 @@
             android:id="@+id/action_settings_to_search"
             app:destination="@id/search" />
     </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.haque.baseline.ui.detail.DetailFragment"
+        android:label="DetailFragment" />
 
 </navigation>

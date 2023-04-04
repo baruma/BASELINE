@@ -78,6 +78,13 @@ class WeatherViewModel @Inject constructor(
         _dailyForecastedWeatherData.postValue(mappedResult.dailyWeather)
     }
 
+    // TODO: Rewrite these functions to also convert between metric and imperial /
+//    - [x] Temperature - fahrenheit / celsius
+//    - [x] Windspeed - Km/h / Miles per hour
+//    - [x] Precipitation - ml / Inches
+//    - [] Visibility - Viewing distance in meters / feet
+
+    // Temperature Units
     fun convertFahrenheitToCelsius(tempInFahrenheit: Double): Double {
         val celsius = (((tempInFahrenheit - 32) * 5) / 9)
         return truncate(celsius)
@@ -85,6 +92,40 @@ class WeatherViewModel @Inject constructor(
 
     fun convertCelsiusToFahrenheit(tempInCelsius: Double): Double {
         val fahrenheit = ((tempInCelsius* 1.8) + 32)
-        return fahrenheit
+        return truncate(fahrenheit)
     }
+
+    // Windspeed Units
+    fun convertKilometersToMiles(windSpeedInKilometers: Double): Double {
+        val miles = windSpeedInKilometers / 1.60934
+        return truncate(miles)
+    }
+
+    fun convertMilesToKilometers(windSpeedInMiles: Double): Double {
+        val kilometers = windSpeedInMiles * 1.60934
+        return truncate(kilometers)
+    }
+
+    // Precipitation Units
+    fun convertInchesToMillimeters(precipitationInInches: Double): Double {
+        val millimeters = precipitationInInches* 25.4
+        return truncate(millimeters)
+    }
+
+    fun convertMillimetersToInches(precipitationInMillimeters: Double): Double {
+        val inches = precipitationInMillimeters / 25.4
+        return truncate(inches)
+    }
+
+    // Visibility Units
+    fun convertFeetToMeters(visibilityInFeet: Double): Double {
+        val meters = visibilityInFeet/3.281
+        return truncate(meters)
+    }
+
+    fun convertMetersToFeet(visibilityInMeters: Double): Double {
+        val feet = visibilityInMeters * 3.281
+        return truncate(feet)
+    }
+
 }

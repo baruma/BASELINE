@@ -24,7 +24,7 @@
                 app:destination="@id/search" />
             <action
                 android:id="@+id/action_weather_to_detailFragment"
-                app:destination="@id/detailFragment" />
+                app:destination="@id/detail" />
         </fragment>
 
     <fragment
@@ -51,8 +51,12 @@
             app:destination="@id/search" />
     </fragment>
     <fragment
-        android:id="@+id/detailFragment"
+        android:id="@+id/detail"
         android:name="com.haque.baseline.ui.weather.detail.DetailFragment"
-        android:label="DetailFragment" />
+        android:label="DetailFragment" >
+        <action
+            android:id="@+id/action_detailFragment_to_weather"
+            app:destination="@id/weather" />
+    </fragment>
 
 </navigation>

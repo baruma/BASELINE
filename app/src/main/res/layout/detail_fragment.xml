@@ -29,7 +29,7 @@
         <View
             android:id="@+id/detail_weather_view"
             android:layout_width="match_parent"
-            android:layout_height="275dp"
+            android:layout_height="300dp"
             android:background="#00BB8484"
             android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,12 +40,11 @@
             android:id="@+id/detail_city_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:paddingBottom="10dp"
+            android:layout_margin="10dp"
             android:fontFamily="sans-serif-black"
             android:textColor="#3E3E3E"
             android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="@id/detail_weather_view"
+            app:layout_constraintTop_toBottomOf="@id/back_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -58,6 +57,7 @@
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/detail_temperature_textview"
             app:layout_constraintTop_toBottomOf="@id/detail_city_textview"/>
 
         <TextView
@@ -67,9 +67,39 @@
             android:fontFamily="sans-serif-black"
             android:textColor="#3E3E3E"
             android:textSize="90sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/min_max_temperature_linearlayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detail_description_textview" />
+
+
+        <LinearLayout
+            android:id="@+id/min_max_temperature_linearlayout"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/detail_temperature_textview"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="15dp"
+            app:layout_constraintTop_toBottomOf="@id/detail_description_textview"
+            app:layout_constraintBottom_toTopOf="@id/detail_weather_imageview">
+
+            <TextView
+                android:id="@+id/max_temp_textview"
+                android:layout_width="50dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:fontFamily="sans-serif-black"/>
+
+            <TextView
+                android:id="@+id/min_temp_textview"
+                android:layout_width="50dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:fontFamily="sans-serif-black"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/detail_weather_imageview"

@@ -2,9 +2,9 @@ package com.haque.baseline.ui.settings
 
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
-import com.haque.baseline.data.TemperatureConstants
-import com.haque.baseline.data.TemperatureConstants.celsiusScale
-import com.haque.baseline.data.TemperatureConstants.fahrenheitScale
+import com.haque.baseline.data.UnitConstants
+import com.haque.baseline.data.UnitConstants.metricScale
+import com.haque.baseline.data.UnitConstants.imperialScale
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,33 +13,33 @@ class SettingsViewModel @Inject constructor(private val sharedPreferences: Share
     ViewModel() {
 
     // This is a getter
-    fun isCelsius(): Boolean {
+    fun isMetric(): Boolean {
         return sharedPreferences.getString(
-            TemperatureConstants.temperatureScaleKey,
-            TemperatureConstants.fahrenheitScale
-        ) == celsiusScale
+            UnitConstants.unitScaleKey,
+            UnitConstants.imperialScale
+        ) == metricScale
     }
 
     // This is a Setter
-    fun setCelsius() {
+    fun setMetric() {
         sharedPreferences.edit()
-            .putString(TemperatureConstants.temperatureScaleKey, TemperatureConstants.celsiusScale)
+            .putString(UnitConstants.unitScaleKey, UnitConstants.metricScale)
             .apply()
     }
 
     // Getter
-    fun isFahrenheit(): Boolean {
+    fun isImperial(): Boolean {
         return sharedPreferences.getString(
-            TemperatureConstants.temperatureScaleKey,
-            TemperatureConstants.fahrenheitScale
-        ) == fahrenheitScale
+            UnitConstants.unitScaleKey,
+            UnitConstants.imperialScale
+        ) == imperialScale
     }
 
     // Setter
-    fun setFahrenheit() {
+    fun setImperial() {
         sharedPreferences.edit().putString(
-            TemperatureConstants.temperatureScaleKey,
-            TemperatureConstants.fahrenheitScale
+            UnitConstants.unitScaleKey,
+            UnitConstants.imperialScale
         ).apply()
     }
 }

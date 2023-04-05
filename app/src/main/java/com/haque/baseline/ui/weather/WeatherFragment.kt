@@ -1,17 +1,15 @@
 package com.haque.baseline.ui.weather
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.haque.baseline.R
@@ -23,18 +21,15 @@ import com.haque.baseline.ui.search.SearchViewModel
 import com.haque.baseline.ui.weather.daily.DailyWeatherRecyclerAdapter
 import com.haque.baseline.ui.weather.hourly.HourlyRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
-    private val currentWeatherViewModel by viewModels<WeatherViewModel>()
+//    private val currentWeatherViewModel by viewModels<WeatherViewModel>()
     private val sharedSearchViewModel: SearchViewModel by activityViewModels()
-    private val sharedCurrentWeatherViewModel by activityViewModels<WeatherViewModel>()  // shared between mainActivity and fragment
+    private val sharedWeatherViewModel by activityViewModels<WeatherViewModel>()
 
     private lateinit var hourlyWeatherRecyclerAdapter: HourlyRecyclerAdapter
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
@@ -45,7 +40,7 @@ class WeatherFragment : Fragment() {
         Observer<PlaceData> {
 //            Use lifecycle scope like below so once the fragment is out of scope, the observer wont be called.
             lifecycleScope.launch(IO) {
-                currentWeatherViewModel.getOneCallWeatherData(it.lat, it.lon)
+                sharedWeatherViewModel.getOneCallWeatherData(it.lat, it.lon)
             }
         }
 
@@ -71,9 +66,13 @@ class WeatherFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+//    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.currentWeatherView.setOnClickListener {
+            view.findNavController().navigate(R.id.detail)
+        }
 
         // Recyclers
         hourlyWeatherRecyclerAdapter = HourlyRecyclerAdapter(mutableListOf())
@@ -89,14 +88,14 @@ class WeatherFragment : Fragment() {
         binding.dailyWeatherForecastRecyclerview.adapter = dailyWeatherRecyclerAdapter
 
         // Current Weather Card
-        binding.cityTextview.text = sharedSearchViewModel.selectedPlace.value?.city ?: "New York City"
+        binding.cityTextview.text = sharedSearchViewModel.selectedPlace.value?.city ?: "New York"
 
         // Observers
         sharedSearchViewModel.placeData.observe(viewLifecycleOwner) { places ->
             binding.cityTextview.text = places.first().city
         }
 
-        currentWeatherViewModel.oneCallWeatherPayload.observe(viewLifecycleOwner) { onecallPayload ->
+        sharedWeatherViewModel.oneCallWeatherPayload.observe(viewLifecycleOwner) { onecallPayload ->
             binding.currentTemperatureTextview.text =
                 ("${onecallPayload.currentWeather.temperatureInFahrenheit}°")
 
@@ -104,17 +103,17 @@ class WeatherFragment : Fragment() {
             binding.weatherIconImageview.setImageResource(onecallPayload.currentWeather.weatherCode.iconResource)
         }
 
-        currentWeatherViewModel.hourlyWeatherData.observe(
+        sharedWeatherViewModel.hourlyWeatherData.observe(
             viewLifecycleOwner,
             hourlyWeatherObserver
         )
 
-        currentWeatherViewModel.dailyForecastedWeatherData.observe(
+        sharedWeatherViewModel.dailyForecastedWeatherData.observe(
             viewLifecycleOwner,
             dailyWeatherObserver
         )
 
-        sharedCurrentWeatherViewModel.defaultCurrentLocation.observe(
+        sharedWeatherViewModel.defaultCurrentLocation.observe(
             viewLifecycleOwner, currentPlaceObserver
         )
 
@@ -127,13 +126,11 @@ class WeatherFragment : Fragment() {
     private suspend fun getWeatherFromSearch() {
         val latitude = sharedSearchViewModel.selectedPlace.value?.lat ?: 43.00f
         val longitude = sharedSearchViewModel.selectedPlace.value?.lon ?: -75.00f
-        currentWeatherViewModel.getOneCallWeatherData(latitude, longitude)
+        sharedWeatherViewModel.getOneCallWeatherData(latitude, longitude)
     }
 
     private suspend fun getWeatherFromCurrentLocation() {
-        val currentLocation = sharedCurrentWeatherViewModel.defaultCurrentLocation.value!!
-        currentWeatherViewModel.getOneCallWeatherData(currentLocation.lat, currentLocation.lon)
-
-        Timber.d("SCREAMING Weather Fragment- $currentLocation")
+        val currentLocation = sharedWeatherViewModel.defaultCurrentLocation.value!!
+        sharedWeatherViewModel.getOneCallWeatherData(currentLocation.lat, currentLocation.lon)
     }
 }

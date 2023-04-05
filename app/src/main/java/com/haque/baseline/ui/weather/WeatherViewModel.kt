@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.haque.baseline.data.TemperatureConstants
+import com.haque.baseline.data.UnitConstants
 import com.haque.baseline.data.mappers.toCurrentWeatherData
 import com.haque.baseline.data.mappers.toDailyForecastedData
 import com.haque.baseline.data.mappers.toHourlyWeather
@@ -13,6 +13,7 @@ import com.haque.baseline.data.model.HourlyWeatherData
 import com.haque.baseline.data.model.OneCallWeatherPayloadData
 import com.haque.baseline.data.model.PlaceData
 import com.haque.baseline.domain.WeatherRepository
+import com.haque.baseline.utils.WeatherCodeToIcon
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.math.truncate
@@ -50,20 +51,31 @@ class WeatherViewModel @Inject constructor(
         var hourlyWeather = result.hourlyWeather.toHourlyWeather()
         var dailyWeather = result.dailyWeather.toDailyForecastedData()
 
-        // If user sets toggle to Celsius, convert, otherwise return fahrenheit data.
-        if (sharedPreferences.getString (
-                TemperatureConstants.temperatureScaleKey, TemperatureConstants.fahrenheitScale) == TemperatureConstants.celsiusScale
+        // If user sets toggle to Metric, convert, otherwise return Imperial data.
+        if (sharedPreferences.getString(
+                UnitConstants.unitScaleKey, UnitConstants.imperialScale
+            ) == UnitConstants.metricScale
         ) {
-            currentWeather = currentWeather.copy(temperatureInFahrenheit = convertFahrenheitToCelsius(currentWeather.temperatureInFahrenheit))
+            currentWeather = currentWeather.copy(
+                temperatureInFahrenheit = convertFahrenheitToCelsius(currentWeather.temperatureInFahrenheit),
+                windSpeed = convertFeetToMeters(currentWeather.windSpeed)
+            )
 
             hourlyWeather = hourlyWeather.map {
-                it.copy(temperatureInFahrenheit = convertFahrenheitToCelsius(it.temperatureInFahrenheit),
-                    apparentTemperatureInFahrenheit = convertFahrenheitToCelsius(it.apparentTemperatureInFahrenheit))
+                it.copy(
+                    temperatureInFahrenheit = convertFahrenheitToCelsius(it.temperatureInFahrenheit),
+                    apparentTemperatureInFahrenheit = convertFahrenheitToCelsius(it.apparentTemperatureInFahrenheit),
+                    precipitation = convertInchesToMillimeters(it.precipitation),
+                    windSpeed = convertMilesToKilometers(it.windSpeed)
+                )
             }
 
             dailyWeather = dailyWeather.map {
-                it.copy(maxTemperature = convertFahrenheitToCelsius(it.maxTemperature),
-                    minTemperature = convertFahrenheitToCelsius(it.minTemperature))
+                it.copy(
+                    maxTemperature = convertFahrenheitToCelsius(it.maxTemperature),
+                    minTemperature = convertFahrenheitToCelsius(it.minTemperature),
+                    precipitationSum = convertInchesToMillimeters(it.precipitationSum)
+                )
             }
         }
 
@@ -78,11 +90,7 @@ class WeatherViewModel @Inject constructor(
         _dailyForecastedWeatherData.postValue(mappedResult.dailyWeather)
     }
 
-    // TODO: Rewrite these functions to also convert between metric and imperial /
-//    - [x] Temperature - fahrenheit / celsius
-//    - [x] Windspeed - Km/h / Miles per hour
-//    - [x] Precipitation - ml / Inches
-//    - [] Visibility - Viewing distance in meters / feet
+    // Unit Conversion Functions
 
     // Temperature Units
     fun convertFahrenheitToCelsius(tempInFahrenheit: Double): Double {
@@ -91,7 +99,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun convertCelsiusToFahrenheit(tempInCelsius: Double): Double {
-        val fahrenheit = ((tempInCelsius* 1.8) + 32)
+        val fahrenheit = ((tempInCelsius * 1.8) + 32)
         return truncate(fahrenheit)
     }
 
@@ -108,7 +116,7 @@ class WeatherViewModel @Inject constructor(
 
     // Precipitation Units
     fun convertInchesToMillimeters(precipitationInInches: Double): Double {
-        val millimeters = precipitationInInches* 25.4
+        val millimeters = precipitationInInches * 25.4
         return truncate(millimeters)
     }
 
@@ -119,7 +127,7 @@ class WeatherViewModel @Inject constructor(
 
     // Visibility Units
     fun convertFeetToMeters(visibilityInFeet: Double): Double {
-        val meters = visibilityInFeet/3.281
+        val meters = visibilityInFeet / 3.281
         return truncate(meters)
     }
 
@@ -127,5 +135,4 @@ class WeatherViewModel @Inject constructor(
         val feet = visibilityInMeters * 3.281
         return truncate(feet)
     }
-
 }

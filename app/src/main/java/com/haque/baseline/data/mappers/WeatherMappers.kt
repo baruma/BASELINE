@@ -13,36 +13,32 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-//2023-03-07T00:00
-
-// Alternative formatting for Day Of Week ("EEEE, MMM dd") -> Monday, Mar 13
 private val dayOfWeekFormat = DateTimeFormatter.ofPattern("EEE")
-//private val hourFormat = DateTimeFormatter.ofPattern("hh")
 fun HourlyWeatherDTO.toHourlyWeather(): List<HourlyWeatherData> {
-
     return time.mapIndexed { index, time ->
-//        val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-//        val localTime = LocalDate.parse(time, pattern)
+        val pattern = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+            val localTime = LocalDateTime.parse(time, pattern)
+            val formatter = DateTimeFormatter.ofPattern("dd-HH")
+            val output: String = localTime.format(formatter)
 
-        val hour = "temporary bc bug"//localTime.format(hourFormat)
-        val temperatureInFahrenheit = temperatures[index]
-        val weatherCode = weatherCodes[index]
-        val windSpeed = windSpeeds[index]
-        val humidity = humidities[index]
-        val visibility = visibilities[index]
-        val precipitation = precipitations[index]
-        val apparentTemperature = apparentTemperatures[index]
+            val temperatureInFahrenheit = temperatures[index]
+            val weatherCode = weatherCodes[index]
+            val windSpeed = windSpeeds[index]
+            val humidity = humidities[index]
+            val visibility = visibilities[index]
+            val precipitation = precipitations[index]
+            val apparentTemperature = apparentTemperatures[index]
 
-        HourlyWeatherData(
-            hour,
-            temperatureInFahrenheit,
-            apparentTemperature,
-            precipitation,
-            humidity,
-            weatherCode = WeatherCodeToIcon.codeToIconMapper(weatherCode),
-            windSpeed,
-            visibility
-        )
+            HourlyWeatherData(
+                output,
+                temperatureInFahrenheit,
+                apparentTemperature,
+                precipitation,
+                humidity,
+                weatherCode = WeatherCodeToIcon.codeToIconMapper(weatherCode),
+                windSpeed,
+                visibility
+            )
     }
 }
 
